@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>사전 제출 행정 서류 - 투어메이커</title>
+    <title>투어메이커 행정 포털 - 사전 제출 서류</title>
     
     <!-- Google Analytics 4 (투어메이커 기본 GA4 측정 ID) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-JLH9GD9SVR"></script>
@@ -20,218 +20,304 @@
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     
     <style>
-        body { font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif; }
-        .doc-row:hover { background-color: #f8fafc; }
+        body { font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif; background-color: #f1f5f9; }
+        .table-row-hover:hover { background-color: #f8fafc; }
         /* 프린트 시 불필요한 요소 숨김 처리 */
         @media print {
             .no-print { display: none !important; }
             body { background-color: white; }
             .shadow-sm, .shadow-md { box-shadow: none !important; }
-            .border { border: 1px solid #ddd !important; }
+            .border { border: 1px solid #e2e8f0 !important; }
+            main { padding: 0 !important; margin: 0 !important; max-width: 100% !important; }
         }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800 min-h-screen pb-20">
+<body class="text-slate-800 antialiased min-h-screen flex flex-col">
 
-    <!-- Top Banner -->
-    <div class="bg-blue-900 text-white py-3 px-4 shadow-md no-print">
-        <div class="max-w-4xl mx-auto flex items-center justify-between">
-            <div class="flex items-center gap-2 text-sm font-semibold opacity-90">
-                <i class="ph ph-shield-check text-xl"></i>
-                <span>투어메이커 안전 행정 시스템</span>
-            </div>
-            <div class="text-xs opacity-75">TOURMAKER INC.</div>
-        </div>
-    </div>
-
-    <div class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8 mt-4">
-        
-        <!-- Header Section -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8 mb-8 text-center relative">
-            <button onclick="window.print()" class="no-print absolute top-4 right-4 bg-gray-100 text-gray-600 hover:bg-gray-200 px-3 py-1.5 rounded-md text-sm font-medium flex items-center gap-1 transition-colors">
-                <i class="ph ph-printer"></i> 인쇄
-            </button>
-            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHfgIX70O5k6Anuo0UgALIdaG9jSga9auHu3uyz0uEirylGPAJnjN_qQbvEGMUvPqUQf_g9FMNUHRxlDcUBf4vZ3Mpy4TnA9WxbmzWYK11gt2zuy_Irl4wctNFjcjLyPo0GPXV792o_J7L9guRMuDfeC1gy7USwywjYbECZgzcsHybuGRRAXAnO1eNmP8/s320/logo.png" alt="투어메이커 로고" class="mx-auto h-12 mb-6">
-            
-            <!-- 학교명 수정 부분 -->
-            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">[남평초등학교] 국외현장체험학습</h1>
-            
-            <h2 class="text-lg text-blue-700 font-semibold mb-4">사전 제출 구비서류 일체</h2>
-            <p class="text-sm text-gray-500 bg-gray-50 inline-block px-4 py-2 rounded-lg no-print">
-                <i class="ph ph-info-h text-blue-500 mr-1"></i>
-                우측의 <strong>'열람/다운로드'</strong> 버튼을 클릭하여 원본 서류(PDF)를 확인하실 수 있습니다.
-            </p>
-        </div>
-
-        <!-- Document Categories -->
-        <div class="space-y-6">
-
-            <!-- Category 01 -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden break-inside-avoid">
-                <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex items-center gap-3">
-                    <div class="bg-blue-100 text-blue-700 p-2 rounded-lg"><i class="ph ph-identification-badge text-xl"></i></div>
-                    <h3 class="text-lg font-bold text-gray-800">01. 인솔자 및 여행자 보험 서류</h3>
+    <!-- Top Navigation (Admin Style - 밝은 테마로 변경하여 로고와 조화) -->
+    <nav class="bg-white text-slate-800 shadow-sm border-b border-slate-200 no-print sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-4">
+                    <!-- 투어메이커 로고 (배경색 충돌 해결) -->
+                    <img src="https://blogger.googleusercontent.com/img/a/AVvXsEitI-Z-hD82keOJ1AqHw-VTZjpw2U-O5UjtV9h3zblyG0wjsVfBWe9X9o0Q_Spctrt7krkd9qXO0xKTmGJLw4gyMZrRqpshKMFttnyx6OcC8-IGz3XLUZpGQOnRqVdol8jz5HuoDLqsEifnVRhcjUJHm13Sz8JrX9aPswMNUwZPvGtJEnQjhc2PiXlo-B8" alt="투어메이커 로고" class="h-8">
+                    <span class="font-bold tracking-wider text-sm border-l border-slate-300 pl-4 text-slate-500">B2B DOCUMENT PORTAL</span>
                 </div>
-                <div class="divide-y divide-gray-100">
-                    <div class="doc-row px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors">
-                        <div class="flex items-start gap-3">
-                            <i class="ph ph-file-pdf text-red-500 text-2xl mt-0.5"></i>
+                <div class="hidden sm:block text-xs text-slate-500 font-semibold flex items-center gap-1">
+                    <i class="ph ph-shield-check text-blue-600 text-lg align-middle relative -top-0.5"></i> 행정 서류 검증 시스템
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header (Breadcrumbs & Actions) -->
+    <header class="bg-white border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+                <nav class="flex text-sm text-slate-500 mb-1 no-print">
+                    <ol class="flex items-center space-x-2">
+                        <li>투어메이커 행정시스템</li>
+                        <li><i class="ph ph-caret-right text-xs"></i></li>
+                        <li>행정서류함</li>
+                        <li><i class="ph ph-caret-right text-xs"></i></li>
+                        <li class="font-semibold text-slate-700">학교별 프로젝트</li>
+                    </ol>
+                </nav>
+                <div class="flex items-center gap-3">
+                    <!-- 💡 학교명이 바뀔 때 이곳만 텍스트를 수정하시면 됩니다. -->
+                    <h1 class="text-2xl font-bold text-slate-900 tracking-tight">[남평초등학교] 국외현장체험학습</h1>
+                    <span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold no-print border border-emerald-200">
+                        서류제출 완료
+                    </span>
+                </div>
+            </div>
+            <div class="flex items-center gap-2 no-print">
+                <button onclick="window.print()" class="bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 px-4 py-2 rounded-md text-sm font-semibold flex items-center gap-2 transition-colors shadow-sm">
+                    <i class="ph ph-printer text-lg"></i> 목차 인쇄
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Summary Widgets (Dashboard Feel) -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8 no-print">
+            <div class="bg-white border border-slate-200 rounded-lg p-4 shadow-sm flex items-center gap-4">
+                <div class="p-3 bg-blue-50 text-blue-600 rounded-lg"><i class="ph ph-files text-2xl"></i></div>
+                <div>
+                    <p class="text-xs text-slate-500 font-semibold uppercase">제출 서류 목록</p>
+                    <p class="text-xl font-bold text-slate-800">9 건</p>
+                </div>
+            </div>
+            <div class="bg-white border border-slate-200 rounded-lg p-4 shadow-sm flex items-center gap-4">
+                <div class="p-3 bg-indigo-50 text-indigo-600 rounded-lg"><i class="ph ph-calendar-check text-2xl"></i></div>
+                <div>
+                    <p class="text-xs text-slate-500 font-semibold uppercase">최종 업데이트</p>
+                    <p class="text-sm font-bold text-slate-800 mt-1">사전 서류 등록완료</p>
+                </div>
+            </div>
+            <div class="bg-white border border-slate-200 rounded-lg p-4 shadow-sm flex items-center gap-4">
+                <div class="p-3 bg-teal-50 text-teal-600 rounded-lg"><i class="ph ph-shield-check text-2xl"></i></div>
+                <div>
+                    <p class="text-xs text-slate-500 font-semibold uppercase">보안 상태</p>
+                    <p class="text-sm font-bold text-slate-800 mt-1">위변조 검증 완료</p>
+                </div>
+            </div>
+            <div class="bg-white border border-slate-200 rounded-lg p-4 shadow-sm flex items-center gap-4">
+                <div class="p-3 bg-orange-50 text-orange-600 rounded-lg"><i class="ph ph-headset text-2xl"></i></div>
+                <div>
+                    <p class="text-xs text-slate-500 font-semibold uppercase">담당 부서</p>
+                    <p class="text-sm font-bold text-slate-800 mt-1">투어메이커 행정팀</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div>
+                <h2 class="text-lg font-bold text-slate-800 border-l-4 border-blue-600 pl-3">사전 제출 구비서류 목록</h2>
+                <p class="text-sm text-slate-500 mt-1 pl-4 no-print">목록에서 <span class="font-semibold">열람/다운로드</span> 버튼을 클릭하여 원본 PDF 문서를 확인하실 수 있습니다.</p>
+            </div>
+        </div>
+
+        <!-- Document Tables (포괄적이고 범용적인 텍스트로 수정) -->
+        <div class="space-y-8">
+            
+            <!-- Category 01 -->
+            <div class="bg-white border border-slate-200 rounded-lg shadow-sm overflow-hidden break-inside-avoid">
+                <div class="bg-slate-50 px-5 py-3 border-b border-slate-200 flex items-center justify-between">
+                    <h3 class="font-bold text-slate-800 flex items-center gap-2">
+                        <i class="ph ph-folder-open text-blue-500 text-lg"></i> 01. 인솔자 및 여행자 보험 서류
+                    </h3>
+                </div>
+                <div class="divide-y divide-slate-100">
+                    <!-- Row -->
+                    <div class="table-row-hover px-5 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors">
+                        <div class="flex items-center gap-3">
+                            <i class="ph ph-file-pdf text-rose-500 text-2xl"></i>
                             <div>
-                                <p class="font-semibold text-gray-800">국외여행인솔자 자격증명서 및 안전연수 수료증</p>
-                                <p class="text-xs text-gray-500 mt-1">이윤경 (자격증번호: 2023-MK60-***)</p>
+                                <p class="text-sm font-bold text-slate-800">국외여행인솔자 자격증명서 및 안전연수 수료증</p>
+                                <p class="text-xs text-slate-500 mt-0.5">배정된 국외여행인솔자 및 안전요원 자격 증빙 내역</p>
                             </div>
                         </div>
-                        <a href="./files/01_guide_cert.pdf" target="_blank" class="no-print shrink-0 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 hover:text-blue-600 px-4 py-2 rounded-lg text-sm font-medium transition-all shadow-sm flex items-center gap-2">
-                            <i class="ph ph-download-simple"></i> 열람/다운로드
-                        </a>
+                        <div class="shrink-0 flex items-center gap-3">
+                            <a href="./files/01_guide_cert.pdf" target="_blank" class="no-print bg-white border border-slate-300 text-slate-700 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300 px-3 py-1.5 rounded text-xs font-bold transition-all shadow-sm flex items-center gap-1.5">
+                                <i class="ph ph-eye text-sm"></i> 열람/다운로드
+                            </a>
+                        </div>
                     </div>
-                    <div class="doc-row px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors">
-                        <div class="flex items-start gap-3">
-                            <i class="ph ph-file-pdf text-red-500 text-2xl mt-0.5"></i>
+                    <!-- Row -->
+                    <div class="table-row-hover px-5 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors">
+                        <div class="flex items-center gap-3">
+                            <i class="ph ph-file-pdf text-rose-500 text-2xl"></i>
                             <div>
-                                <p class="font-semibold text-gray-800">성범죄 및 아동학대관련범죄 전력 조회 동의서</p>
-                                <p class="text-xs text-gray-500 mt-1">인솔자 및 현지가이드 대상 확인 서류</p>
+                                <p class="text-sm font-bold text-slate-800">성범죄 및 아동학대관련범죄 전력 조회 동의서</p>
+                                <p class="text-xs text-slate-500 mt-0.5">참여 인력 대상 성범죄 등 전력 조회 동의 내역</p>
                             </div>
                         </div>
-                        <a href="./files/01_crime_check.pdf" target="_blank" class="no-print shrink-0 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 hover:text-blue-600 px-4 py-2 rounded-lg text-sm font-medium transition-all shadow-sm flex items-center gap-2">
-                            <i class="ph ph-download-simple"></i> 열람/다운로드
-                        </a>
+                        <div class="shrink-0 flex items-center gap-3">
+                            <a href="./files/01_crime_check.pdf" target="_blank" class="no-print bg-white border border-slate-300 text-slate-700 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300 px-3 py-1.5 rounded text-xs font-bold transition-all shadow-sm flex items-center gap-1.5">
+                                <i class="ph ph-eye text-sm"></i> 열람/다운로드
+                            </a>
+                        </div>
                     </div>
-                    <div class="doc-row px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors">
-                        <div class="flex items-start gap-3">
-                            <i class="ph ph-file-pdf text-red-500 text-2xl mt-0.5"></i>
+                    <!-- Row -->
+                    <div class="table-row-hover px-5 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors">
+                        <div class="flex items-center gap-3">
+                            <i class="ph ph-file-pdf text-rose-500 text-2xl"></i>
                             <div>
-                                <p class="font-semibold text-gray-800">여행자보험 가입증명서 및 요약약관</p>
-                                <p class="text-xs text-gray-500 mt-1">DB손해보험 / 김소율 외 15명 단체 가입분</p>
+                                <p class="text-sm font-bold text-slate-800">여행자보험 가입증명서 및 요약약관</p>
+                                <p class="text-xs text-slate-500 mt-0.5">현장체험학습 참가자 전원 해외여행자보험 단체 가입 증명원</p>
                             </div>
                         </div>
-                        <a href="./files/01_insurance.pdf" target="_blank" class="no-print shrink-0 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 hover:text-blue-600 px-4 py-2 rounded-lg text-sm font-medium transition-all shadow-sm flex items-center gap-2">
-                            <i class="ph ph-download-simple"></i> 열람/다운로드
-                        </a>
+                        <div class="shrink-0 flex items-center gap-3">
+                            <a href="./files/01_insurance.pdf" target="_blank" class="no-print bg-white border border-slate-300 text-slate-700 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300 px-3 py-1.5 rounded text-xs font-bold transition-all shadow-sm flex items-center gap-1.5">
+                                <i class="ph ph-eye text-sm"></i> 열람/다운로드
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Category 02 -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden break-inside-avoid">
-                <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex items-center gap-3">
-                    <div class="bg-indigo-100 text-indigo-700 p-2 rounded-lg"><i class="ph ph-buildings text-xl"></i></div>
-                    <h3 class="text-lg font-bold text-gray-800">02. 현지 숙박 시설 안전 서류</h3>
+            <div class="bg-white border border-slate-200 rounded-lg shadow-sm overflow-hidden break-inside-avoid">
+                <div class="bg-slate-50 px-5 py-3 border-b border-slate-200 flex items-center justify-between">
+                    <h3 class="font-bold text-slate-800 flex items-center gap-2">
+                        <i class="ph ph-folder-open text-indigo-500 text-lg"></i> 02. 현지 숙박 시설 안전 서류
+                    </h3>
                 </div>
-                <div class="divide-y divide-gray-100">
-                    <div class="doc-row px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors">
-                        <div class="flex items-start gap-3">
-                            <i class="ph ph-file-pdf text-red-500 text-2xl mt-0.5"></i>
+                <div class="divide-y divide-slate-100">
+                    <div class="table-row-hover px-5 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors">
+                        <div class="flex items-center gap-3">
+                            <i class="ph ph-file-pdf text-rose-500 text-2xl"></i>
                             <div>
-                                <p class="font-semibold text-gray-800">[조잔케이 뷰 호텔] 예약확인서 및 소방/보험증권</p>
-                                <p class="text-xs text-gray-500 mt-1">숙박 예약증명, 소방설비 검사필증, 화재보험 내역</p>
+                                <p class="text-sm font-bold text-slate-800">현지 숙박 시설 안전 및 예약 서류 (1)</p>
+                                <p class="text-xs text-slate-500 mt-0.5">숙박업소 예약증명, 소방설비 검사필증, 영업배상책임보험 등</p>
                             </div>
                         </div>
-                        <a href="./files/02_hotel_jozankei.pdf" target="_blank" class="no-print shrink-0 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 hover:text-blue-600 px-4 py-2 rounded-lg text-sm font-medium transition-all shadow-sm flex items-center gap-2">
-                            <i class="ph ph-download-simple"></i> 열람/다운로드
-                        </a>
+                        <div class="shrink-0 flex items-center gap-3">
+                            <a href="./files/02_hotel_1.pdf" target="_blank" class="no-print bg-white border border-slate-300 text-slate-700 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300 px-3 py-1.5 rounded text-xs font-bold transition-all shadow-sm flex items-center gap-1.5">
+                                <i class="ph ph-eye text-sm"></i> 열람/다운로드
+                            </a>
+                        </div>
                     </div>
-                    <div class="doc-row px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors">
-                        <div class="flex items-start gap-3">
-                            <i class="ph ph-file-pdf text-red-500 text-2xl mt-0.5"></i>
+                    <div class="table-row-hover px-5 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors">
+                        <div class="flex items-center gap-3">
+                            <i class="ph ph-file-pdf text-rose-500 text-2xl"></i>
                             <div>
-                                <p class="font-semibold text-gray-800">[아파호텔 삿포로] 예약확인서 및 소방/보험증권</p>
-                                <p class="text-xs text-gray-500 mt-1">숙박 예약증명, 방화기준 적합통지서, 화재보험 내역</p>
+                                <p class="text-sm font-bold text-slate-800">현지 숙박 시설 안전 및 예약 서류 (2)</p>
+                                <p class="text-xs text-slate-500 mt-0.5">숙박업소 예약증명, 방화기준 적합통지서, 책임보험 등 (해당 시)</p>
                             </div>
                         </div>
-                        <a href="./files/02_hotel_apa.pdf" target="_blank" class="no-print shrink-0 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 hover:text-blue-600 px-4 py-2 rounded-lg text-sm font-medium transition-all shadow-sm flex items-center gap-2">
-                            <i class="ph ph-download-simple"></i> 열람/다운로드
-                        </a>
+                        <div class="shrink-0 flex items-center gap-3">
+                            <a href="./files/02_hotel_2.pdf" target="_blank" class="no-print bg-white border border-slate-300 text-slate-700 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300 px-3 py-1.5 rounded text-xs font-bold transition-all shadow-sm flex items-center gap-1.5">
+                                <i class="ph ph-eye text-sm"></i> 열람/다운로드
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Category 03 -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden break-inside-avoid">
-                <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex items-center gap-3">
-                    <div class="bg-teal-100 text-teal-700 p-2 rounded-lg"><i class="ph ph-bus text-xl"></i></div>
-                    <h3 class="text-lg font-bold text-gray-800">03. 현지 차량 운행 서류</h3>
+            <div class="bg-white border border-slate-200 rounded-lg shadow-sm overflow-hidden break-inside-avoid">
+                <div class="bg-slate-50 px-5 py-3 border-b border-slate-200 flex items-center justify-between">
+                    <h3 class="font-bold text-slate-800 flex items-center gap-2">
+                        <i class="ph ph-folder-open text-teal-500 text-lg"></i> 03. 현지 차량 운행 서류
+                    </h3>
                 </div>
-                <div class="divide-y divide-gray-100">
-                    <div class="doc-row px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors">
-                        <div class="flex items-start gap-3">
-                            <i class="ph ph-file-pdf text-red-500 text-2xl mt-0.5"></i>
+                <div class="divide-y divide-slate-100">
+                    <div class="table-row-hover px-5 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors">
+                        <div class="flex items-center gap-3">
+                            <i class="ph ph-file-pdf text-rose-500 text-2xl"></i>
                             <div>
-                                <p class="font-semibold text-gray-800">차량회사(SORA) 일반여객자동차운송사업 허가증</p>
-                                <p class="text-xs text-gray-500 mt-1">일본 국토교통성 관할 사업 허가증명</p>
+                                <p class="text-sm font-bold text-slate-800">현지 차량회사 일반여객자동차운송사업 허가증</p>
+                                <p class="text-xs text-slate-500 mt-0.5">현지 관할 관청 여객자동차운송사업 허가증명</p>
                             </div>
                         </div>
-                        <a href="./files/03_bus_license.pdf" target="_blank" class="no-print shrink-0 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 hover:text-blue-600 px-4 py-2 rounded-lg text-sm font-medium transition-all shadow-sm flex items-center gap-2">
-                            <i class="ph ph-download-simple"></i> 열람/다운로드
-                        </a>
+                        <div class="shrink-0 flex items-center gap-3">
+                            <a href="./files/03_bus_license.pdf" target="_blank" class="no-print bg-white border border-slate-300 text-slate-700 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300 px-3 py-1.5 rounded text-xs font-bold transition-all shadow-sm flex items-center gap-1.5">
+                                <i class="ph ph-eye text-sm"></i> 열람/다운로드
+                            </a>
+                        </div>
                     </div>
-                    <div class="doc-row px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors">
-                        <div class="flex items-start gap-3">
-                            <i class="ph ph-file-pdf text-red-500 text-2xl mt-0.5"></i>
+                    <div class="table-row-hover px-5 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors">
+                        <div class="flex items-center gap-3">
+                            <i class="ph ph-file-pdf text-rose-500 text-2xl"></i>
                             <div>
-                                <p class="font-semibold text-gray-800">운행 차량 보험증권 (자동차종합보험)</p>
-                                <p class="text-xs text-gray-500 mt-1">대인/대물 무한 보장 보험증권 (동경해상일동)</p>
+                                <p class="text-sm font-bold text-slate-800">운행 차량 보험증권 (자동차종합보험)</p>
+                                <p class="text-xs text-slate-500 mt-0.5">현지 운행 차량별 종합보험(대인/대물) 가입 증명원</p>
                             </div>
                         </div>
-                        <a href="./files/03_bus_insurance.pdf" target="_blank" class="no-print shrink-0 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 hover:text-blue-600 px-4 py-2 rounded-lg text-sm font-medium transition-all shadow-sm flex items-center gap-2">
-                            <i class="ph ph-download-simple"></i> 열람/다운로드
-                        </a>
+                        <div class="shrink-0 flex items-center gap-3">
+                            <a href="./files/03_bus_insurance.pdf" target="_blank" class="no-print bg-white border border-slate-300 text-slate-700 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300 px-3 py-1.5 rounded text-xs font-bold transition-all shadow-sm flex items-center gap-1.5">
+                                <i class="ph ph-eye text-sm"></i> 열람/다운로드
+                            </a>
+                        </div>
                     </div>
-                    <div class="doc-row px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors">
-                        <div class="flex items-start gap-3">
-                            <i class="ph ph-file-pdf text-red-500 text-2xl mt-0.5"></i>
+                    
+                    <!-- 💡 음주측정 기록지: 사후 제출용 UI 적용 -->
+                    <div class="px-5 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-50">
+                        <div class="flex items-center gap-3">
+                            <i class="ph ph-file-dashed text-slate-400 text-2xl"></i>
                             <div>
-                                <p class="font-semibold text-gray-800">운수종사자 배정표 및 음주측정 기록지</p>
-                                <p class="text-xs text-gray-500 mt-1">운전자 신원 확인 및 운행 전 알코올 체크 기록</p>
+                                <div class="flex items-center gap-2">
+                                    <p class="text-sm font-bold text-slate-600">운수종사자 배정표 및 음주측정 기록지</p>
+                                    <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-200 no-print">사후 제출</span>
+                                </div>
+                                <p class="text-xs text-slate-500 mt-0.5">운행 당일 현장 측정 후, 행사 종료 시 최종본 제출 예정입니다.</p>
                             </div>
                         </div>
-                        <a href="./files/03_driver_check.pdf" target="_blank" class="no-print shrink-0 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 hover:text-blue-600 px-4 py-2 rounded-lg text-sm font-medium transition-all shadow-sm flex items-center gap-2">
-                            <i class="ph ph-download-simple"></i> 열람/다운로드
-                        </a>
+                        <div class="shrink-0 flex items-center gap-3">
+                            <span class="no-print bg-slate-200 text-slate-500 border border-slate-300 px-3 py-1.5 rounded text-xs font-bold flex items-center gap-1.5 cursor-not-allowed shadow-inner">
+                                <i class="ph ph-clock text-sm"></i> 제출 대기
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Category 04 -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden break-inside-avoid">
-                <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex items-center gap-3">
-                    <div class="bg-orange-100 text-orange-700 p-2 rounded-lg"><i class="ph ph-fork-knife text-xl"></i></div>
-                    <h3 class="text-lg font-bold text-gray-800">04. 식사 및 기타 프로그램 서류</h3>
+            <div class="bg-white border border-slate-200 rounded-lg shadow-sm overflow-hidden break-inside-avoid">
+                <div class="bg-slate-50 px-5 py-3 border-b border-slate-200 flex items-center justify-between">
+                    <h3 class="font-bold text-slate-800 flex items-center gap-2">
+                        <i class="ph ph-folder-open text-orange-500 text-lg"></i> 04. 식사 및 기타 프로그램 서류
+                    </h3>
                 </div>
-                <div class="divide-y divide-gray-100">
-                    <div class="doc-row px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors">
-                        <div class="flex items-start gap-3">
-                            <i class="ph ph-file-pdf text-red-500 text-2xl mt-0.5"></i>
+                <div class="divide-y divide-slate-100">
+                    <div class="table-row-hover px-5 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors">
+                        <div class="flex items-center gap-3">
+                            <i class="ph ph-file-pdf text-rose-500 text-2xl"></i>
                             <div>
-                                <p class="font-semibold text-gray-800">현지 식당 정보 및 일자별 식단표</p>
-                                <p class="text-xs text-gray-500 mt-1">조식/중식/석식 식단 구성 및 영업신고 관련</p>
+                                <p class="text-sm font-bold text-slate-800">현지 식당 정보 및 일자별 식단표</p>
+                                <p class="text-xs text-slate-500 mt-0.5">일자별 식단 구성 및 식당 영업신고 관련 서류</p>
                             </div>
                         </div>
-                        <a href="./files/04_meal_plan.pdf" target="_blank" class="no-print shrink-0 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 hover:text-blue-600 px-4 py-2 rounded-lg text-sm font-medium transition-all shadow-sm flex items-center gap-2">
-                            <i class="ph ph-download-simple"></i> 열람/다운로드
-                        </a>
+                        <div class="shrink-0 flex items-center gap-3">
+                            <a href="./files/04_meal_plan.pdf" target="_blank" class="no-print bg-white border border-slate-300 text-slate-700 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300 px-3 py-1.5 rounded text-xs font-bold transition-all shadow-sm flex items-center gap-1.5">
+                                <i class="ph ph-eye text-sm"></i> 열람/다운로드
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
 
         </div> <!-- End of Categories -->
 
-        <!-- Contact info -->
-        <div class="mt-8 text-center text-sm text-gray-500 no-print">
-            <p>※ 추가 필요 서류가 있으실 경우 투어메이커 행정지원팀으로 연락 주시기 바랍니다.</p>
-        </div>
+    </main>
 
-    </div>
-
-    <!-- Tourmaker Footer Box -->
-    <div class="w-full bg-white border-t border-gray-200 py-6 mt-12 no-print">
-        <div class="max-w-4xl mx-auto px-4 text-center">
-            <a href="http://tourmaker.kr" target="_blank" class="inline-block bg-gray-50 border border-gray-200 rounded-lg py-3 px-8 text-sm font-bold text-gray-600 hover:text-gray-900 hover:border-gray-300 transition-colors shadow-sm">
-                투어메이커(TOURMAKER) 홈페이지 바로가기
+    <!-- Admin Footer Box -->
+    <footer class="bg-white border-t border-slate-200 mt-auto no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="text-slate-500 text-xs text-center md:text-left">
+                <p>본 페이지에 등록된 문서는 발주처(학교/기관)의 행정 검토용으로만 제공되며 무단 배포를 금합니다.</p>
+                <p class="mt-1">Copyright © <span class="font-bold text-slate-700">TOURMAKER INC.</span> All rights reserved.</p>
+            </div>
+            <a href="http://tourmaker.kr" target="_blank" class="shrink-0 bg-slate-800 border border-slate-700 text-slate-100 hover:text-white hover:bg-slate-900 px-5 py-2.5 rounded text-sm font-bold transition-colors flex items-center gap-2">
+                투어메이커 홈페이지 <i class="ph ph-arrow-square-out"></i>
             </a>
-            <p class="mt-3 text-xs text-gray-400">Copyright © TOURMAKER. All rights reserved.</p>
         </div>
-    </div>
+    </footer>
 
 </body>
 </html>

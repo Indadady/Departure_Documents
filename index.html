@@ -8,7 +8,8 @@
     <!-- 카카오톡/문자 링크 공유 시 표시될 썸네일 (Open Graph) -->
     <meta property="og:title" content="투어메이커 출발전 제출서류 포털">
     <meta property="og:description" content="발주처(학교/기관) 전용 안전 행정 서류 검증 시스템">
-    <meta property="og:image" content="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHfgIX70O5k6Anuo0UgALIdaG9jSga9auHu3uyz0uEirylGPAJnjN_qQbvEGMUvPqUQf_g9FMNUHRxlDcUBf4vZ3Mpy4TnA9WxbmzWYK11gt2zuy_Irl4wctNFjcjLyPo0GPXV792o_J7L9guRMuDfeC1gy7USwywjYbECZgzcsHybuGRRAXAnO1eNmP8/s320/logo.png">
+    <!-- 요청하신 최종 썸네일 이미지 반영 완료 -->
+    <meta property="og:image" content="https://blogger.googleusercontent.com/img/a/AVvXsEhPxG_ONo2BdFAGDNnn-pHIGJTrAq374YbqgwTTlyIZTP22kOWTDD_AyjKDNFPhsHg5t1Iq6zV0dL_NZIj4o97Kd0eWJYCv-NHhtIqme-Mp3htGhAdkqVv5NRU3Jc9TbdbvvVKrPslObA1oNABpgl12QtGwirC2QM5lcPCVoWm8pIbeKuZBbeDHAvpbKEQ">
     <meta property="og:type" content="website">
 
     <!-- Google Analytics 4 (투어메이커 기본 GA4) -->
@@ -82,7 +83,7 @@
             <div class="mb-4">
                 <label class="block text-sm font-bold text-slate-700 mb-2">1. 발주처(학교명) 설정</label>
                 <input type="text" id="admin-school-name" placeholder="예: 남평초등학교" class="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 text-sm" oninput="updatePreviewText()">
-                <p class="text-[11px] text-blue-600 mt-1 font-bold">※ 입력하신 학교명으로 PDF 폴더 경로가 자동 지정됩니다.</p>
+                <p class="text-[11px] text-blue-600 mt-1 font-bold">※ 입력하신 이름으로 PDF 폴더 경로가 매칭됩니다.</p>
             </div>
 
             <!-- 2. 프로그램명 설정 -->
@@ -116,10 +117,10 @@
             
             <hr class="border-slate-200 mb-6">
 
-            <!-- 6. 링크 생성 (보안 토큰 방식) -->
+            <!-- 6. 링크 생성 (단축 링크 자동 변환) -->
             <div>
-                <button onclick="generateLink()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-3.5 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-md">
-                    <i class="ph ph-link text-lg"></i> 암호화 보안링크 복사
+                <button id="generateBtn" onclick="generateLink()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-3.5 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-md">
+                    <i class="ph ph-link text-lg"></i> 단축 보안링크 생성 및 복사
                 </button>
             </div>
         </div>
@@ -182,7 +183,7 @@
     <!-- Main Content (문서 목록) -->
     <main class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
         
-        <!-- Summary Widgets -->
+        <!-- Summary Widgets (대표님이 선택하신 깔끔한 B2B 디자인 유지) -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-10 no-print">
             <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex items-center gap-4">
                 <div class="p-3 bg-indigo-50 text-indigo-600 rounded-lg"><i class="ph ph-file-text text-2xl"></i></div>
@@ -281,7 +282,7 @@
                         <i class="ph ph-file-pdf text-rose-500 text-3xl"></i>
                         <div>
                             <p class="text-base font-bold text-slate-800 mb-1">식사 일정 및 관련 증빙 서류 일체</p>
-                            <p class="text-sm text-slate-500">전 일정 식단 정보, 식당 영업/집단급식소 설치신고증, 배상책임보험 등</p>
+                            <p class="text-sm text-slate-500">전 일정 식단 정보, 식당별 영업/집단급식소 설치신고증, 배상책임보험 등</p>
                         </div>
                     </div>
                     <div class="shrink-0">
@@ -319,7 +320,7 @@
 
     </main>
 
-    <!-- Admin Footer -->
+    <!-- Admin Footer (투어메이커 규격) -->
     <footer class="bg-white border-t border-slate-200 mt-auto no-print">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-6">
             <div class="text-slate-500 text-xs text-center md:text-left leading-relaxed">
@@ -338,7 +339,7 @@
         <span id="toast-msg" class="font-semibold text-sm">복사되었습니다.</span>
     </div>
 
-    <!-- 스크립트: 보안 토큰 기반 동적 라우팅 -->
+    <!-- 스크립트: 보안 토큰 기반 단축 링크 라우팅 -->
     <script>
         let currentSchool = '남평초등학교';
         let currentProgram = '국외현장체험학습';
@@ -353,35 +354,24 @@
                 document.getElementById('secret-admin-btn').classList.add('flex');
             }
 
-            // 💡 새로운 암호화 토큰 방식 파싱 (?q=eyJz...)
-            if(urlParams.has('q')) {
-                try {
-                    const data = JSON.parse(decodeURIComponent(atob(urlParams.get('q'))));
-                    currentSchool = data.s || currentSchool;
-                    currentProgram = data.p || currentProgram;
-                    if(data.w) {
-                        encodedPassword = btoa(data.w);
-                    }
-                } catch(e) {
-                    console.error("Invalid secure token");
-                }
-            } else {
-                // 이전 일반 파라미터 방식 호환 (school=...&pwd=...)
-                if(urlParams.has('school')) currentSchool = urlParams.get('school');
-                if(urlParams.has('program')) currentProgram = urlParams.get('program');
-                if(urlParams.has('pwd')) encodedPassword = urlParams.get('pwd');
+            // 💡 학교명/비밀번호 파라미터 적용
+            if(urlParams.has('school')) {
+                currentSchool = urlParams.get('school');
+                document.getElementById('admin-school-name').value = currentSchool;
             }
-
-            document.getElementById('admin-school-name').value = currentSchool;
-            document.getElementById('admin-program-name').value = currentProgram;
+            if(urlParams.has('program')) {
+                currentProgram = urlParams.get('program');
+                document.getElementById('admin-program-name').value = currentProgram;
+            }
 
             updatePreviewText();
 
             // 보안 잠금 처리
-            if(encodedPassword) {
+            if(urlParams.has('pwd')) {
+                encodedPassword = urlParams.get('pwd');
                 document.getElementById('lock-screen').classList.remove('hidden');
                 document.getElementById('lock-screen').classList.add('flex');
-                document.getElementById('status-security').innerText = "보안 접속 완료";
+                document.getElementById('status-security').innerText = "보안 접속 대기";
             } else {
                 document.getElementById('status-security').innerText = "공개 열람 (비밀번호 미설정)";
             }
@@ -419,6 +409,7 @@
             if(btoa(input) === encodedPassword) {
                 document.getElementById('lock-screen').classList.add('hidden');
                 document.getElementById('lock-screen').classList.remove('flex');
+                document.getElementById('status-security').innerText = "위변조 검증 완료";
             } else {
                 error.classList.remove('hidden');
                 document.getElementById('pwd-input').value = '';
@@ -434,33 +425,67 @@
             alert("[안전한 데이터 보존을 위한 업로드 가이드]\n\n1. 컴퓨터에 [해당 학교명] 폴더를 만듭니다.\n2. 병합된 4개의 파일(01_hotel.pdf 등)을 넣습니다.\n3. GitHub 저장소의 'files' 폴더 내부에 이 학교 폴더를 통째로 업로드하세요.\n\n※ 학교명 입력 시 이 폴더명과 동일하게 입력하셔야 서류가 열립니다.");
         }
 
-        // 💡 암호화 토큰 (Hash) 기반 보안 링크 생성
+        // 💡 피싱 오해 방지! 자동 단축 링크 생성 로직 (is.gd JSONP 활용)
         function generateLink() {
             const school = document.getElementById('admin-school-name').value || '남평초등학교';
             const program = document.getElementById('admin-program-name').value || '국외현장체험학습';
             const pwd = document.getElementById('admin-password').value;
+            const btn = document.getElementById('generateBtn');
             
+            // 로딩 상태 표시
+            btn.innerHTML = `<i class="ph ph-spinner animate-spin text-lg"></i> 단축 링크 생성 중...`;
+            btn.classList.add('opacity-80', 'cursor-not-allowed');
+
             let url = new URL(window.location.href.split('?')[0]); 
+            url.searchParams.set('school', school.trim());
+            url.searchParams.set('program', program.trim());
+            if(pwd.trim() !== '') {
+                url.searchParams.set('pwd', btoa(pwd.trim()));
+            }
 
-            // 데이터를 하나의 객체로 묶어 Base64로 암호화 (URL 길이 축소 및 한글 깨짐 방지 효과)
-            const payload = {
-                s: school.trim(),
-                p: program.trim(),
-                w: pwd.trim()
-            };
+            const longUrl = url.toString();
+
+            // is.gd를 통한 링크 자동 단축 요청
+            const script = document.createElement('script');
+            const callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
             
-            const secureHash = btoa(encodeURIComponent(JSON.stringify(payload)));
-            url.searchParams.set('q', secureHash);
+            // 3.5초 내에 API 응답이 없으면 깃허브 원본 링크로 복사하는 안전장치
+            const fallbackTimer = setTimeout(() => {
+                finishCopy(longUrl, school, false);
+                cleanup();
+            }, 3500);
 
-            // 임시 엘리먼트로 클립보드 복사
+            window[callbackName] = function(data) {
+                clearTimeout(fallbackTimer);
+                if(data && data.shorturl) {
+                    finishCopy(data.shorturl, school, true); // 성공 시 깔끔한 단축 링크 (예: is.gd/xxxx)
+                } else {
+                    finishCopy(longUrl, school, false); // 실패 시 원본 링크
+                }
+                cleanup();
+            };
+
+            function cleanup() {
+                delete window[callbackName];
+                if(script.parentNode) document.body.removeChild(script);
+                btn.innerHTML = `<i class="ph ph-link text-lg"></i> 단축 보안링크 생성 및 복사`;
+                btn.classList.remove('opacity-80', 'cursor-not-allowed');
+            }
+
+            script.src = `https://is.gd/create.php?format=json&url=${encodeURIComponent(longUrl)}&callback=${callbackName}`;
+            document.body.appendChild(script);
+        }
+
+        function finishCopy(text, school, isShort) {
             const dummy = document.createElement('textarea');
             document.body.appendChild(dummy);
-            dummy.value = url.toString();
+            dummy.value = text;
             dummy.select();
             document.execCommand('copy');
             document.body.removeChild(dummy);
 
-            showToast(`[${school}] 암호화 보안 링크가 복사되었습니다!`);
+            const msg = isShort ? '단축 보안 링크가 복사되었습니다!' : '보안 링크가 복사되었습니다!';
+            showToast(`[${school}] ${msg}`);
             setTimeout(() => toggleSidebar(), 1200);
         }
 

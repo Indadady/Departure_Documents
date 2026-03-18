@@ -48,7 +48,7 @@
     <!-- 🔒 보안 잠금 화면 -->
     <div id="lock-screen" class="fixed inset-0 bg-slate-900 bg-opacity-95 z-[100] hidden flex-col items-center justify-center backdrop-blur-sm">
         <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-sm w-full mx-4 text-center transform transition-all">
-            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEitI-Z-hD82keOJ1AqHw-VTZjpw2U-O5UjtV9h3zblyG0wjsVfBWe9X9o0Q_Spctrt7krkd9qXO0xKTmGJLw4gyMZrRqpshKMFttnyx6OcC8-IGz3XLUZpGQOnRqVdol8jz5HuoDLqsEifnVRhcjUJHm13Sz8JrX9aPswMNUwZPvGtJEnQjhc2PiXlo-B8" alt="투어메이커 로고" class="h-10 mx-auto mb-6">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHfgIX70O5k6Anuo0UgALIdaG9jSga9auHu3uyz0uEirylGPAJnjN_qQbvEGMUvPqUQf_g9FMNUHRxlDcUBf4vZ3Mpy4TnA9WxbmzWYK11gt2zuy_Irl4wctNFjcjLyPo0GPXV792o_J7L9guRMuDfeC1gy7USwywjYbECZgzcsHybuGRRAXAnO1eNmP8/s320/logo.png" alt="투어메이커 로고" class="h-10 mx-auto mb-6">
             <h2 class="text-xl font-bold text-slate-800 mb-2">보안 문서함 접속</h2>
             <p class="text-sm text-slate-500 mb-6">안내받으신 비밀번호<br><span class="font-semibold text-blue-600">(행사 출발일자 6자리)</span>를 입력해 주세요.</p>
             
@@ -79,13 +79,14 @@
             <!-- 1. 학교명 설정 -->
             <div class="mb-4">
                 <label class="block text-sm font-bold text-slate-700 mb-2">1. 발주처(학교명) 설정</label>
-                <input type="text" id="admin-school-name" placeholder="예: 문곡중학교" class="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 text-sm" oninput="updatePreviewText()">
+                <input type="text" id="admin-school-name" placeholder="예: 남평초등학교" class="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 text-sm" oninput="updatePreviewText()">
+                <p class="text-[11px] text-blue-600 mt-1 font-bold">※ 입력하신 학교명으로 PDF 폴더 경로가 자동 지정됩니다.</p>
             </div>
 
             <!-- 2. 프로그램명 설정 -->
             <div class="mb-4">
                 <label class="block text-sm font-bold text-slate-700 mb-2">2. 프로그램명 설정</label>
-                <input type="text" id="admin-program-name" placeholder="예: 수학여행, 국외현장체험학습" class="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 text-sm" oninput="updatePreviewText()">
+                <input type="text" id="admin-program-name" placeholder="예: 국외현장체험학습" class="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 text-sm" oninput="updatePreviewText()">
             </div>
 
             <!-- 3. 출발일자 설정 -->
@@ -104,7 +105,7 @@
             <!-- 5. 파일 업로드 가이드 -->
             <div class="mb-6 bg-slate-50 p-4 rounded-lg border border-slate-200">
                 <label class="block text-sm font-bold text-slate-700 mb-2">5. 원본 PDF 업데이트 (필독)</label>
-                <p class="text-xs text-slate-600 mb-3 leading-relaxed">현지 서류는 <strong>반드시 GitHub의 'files' 폴더에 직접 업로드(덮어쓰기)</strong> 하셔야 합니다.</p>
+                <p class="text-xs text-slate-600 mb-3 leading-relaxed">GitHub의 'files' 폴더 안에 <strong>[학교명]으로 폴더를 만들어</strong> 병합된 4개의 서류를 올려주세요.</p>
                 
                 <input type="file" id="dummy-upload" class="hidden" multiple onchange="simulateUpload()">
                 <label for="dummy-upload" class="w-full flex items-center justify-center gap-2 bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 text-sm font-bold py-2 rounded-md cursor-pointer transition-colors shadow-sm">
@@ -161,7 +162,7 @@
                 </nav>
                 <div class="flex flex-wrap items-center gap-3">
                     <h1 class="text-2xl font-bold text-slate-900 tracking-tight">
-                        [<span class="school-name-display text-blue-700">문곡중학교</span>] <span class="program-name-display">국내현장체험학습</span>
+                        [<span class="school-name-display text-blue-700">남평초등학교</span>] <span class="program-name-display">국외현장체험학습</span>
                     </h1>
                     <span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold no-print border border-emerald-200">
                         서류제출 완료
@@ -218,14 +219,14 @@
             </div>
         </div>
 
-        <!-- 범용 카테고리 -->
+        <!-- 병합된 4개의 파일 시스템 구조 -->
         <div class="space-y-8">
             
             <!-- Category 01: 숙박 -->
             <div class="bg-white border border-slate-200 rounded-lg shadow-sm overflow-hidden break-inside-avoid">
                 <div class="bg-slate-50 px-5 py-3 border-b border-slate-200 flex items-center justify-between">
                     <h3 class="font-bold text-slate-800 flex items-center gap-2">
-                        <i class="ph ph-buildings text-indigo-500 text-lg"></i> 01. 숙박 시설 안전 및 인허가 서류
+                        <i class="ph ph-buildings text-indigo-500 text-lg"></i> 01. 숙박 관련 서류 일체
                     </h3>
                 </div>
                 <div class="divide-y divide-slate-100">
@@ -233,26 +234,12 @@
                         <div class="flex items-center gap-3">
                             <i class="ph ph-file-pdf text-rose-500 text-2xl"></i>
                             <div>
-                                <p class="text-sm font-bold text-slate-800">숙박업소 사업자등록증 및 영업신고증</p>
-                                <p class="text-xs text-slate-500 mt-0.5">이용 예정 숙박업소 기본 인허가 및 예약 확인 서류</p>
+                                <p class="text-sm font-bold text-slate-800">이용 예정 숙박시설 안전 및 인허가 서류 일체</p>
+                                <p class="text-xs text-slate-500 mt-0.5">예약확인서, 사업자/영업신고증, 소방/위생점검 및 영업배상책임보험 등</p>
                             </div>
                         </div>
                         <div class="shrink-0 flex items-center gap-3">
-                            <a href="./files/01_hotel_license.pdf" target="_blank" class="no-print bg-white border border-slate-300 text-slate-700 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300 px-3 py-1.5 rounded text-xs font-bold transition-all shadow-sm flex items-center gap-1.5">
-                                <i class="ph ph-eye text-sm"></i> 열람/다운로드
-                            </a>
-                        </div>
-                    </div>
-                    <div class="table-row-hover px-5 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors">
-                        <div class="flex items-center gap-3">
-                            <i class="ph ph-file-pdf text-rose-500 text-2xl"></i>
-                            <div>
-                                <p class="text-sm font-bold text-slate-800">숙박업소 소방점검/위생점검 및 책임보험 증권</p>
-                                <p class="text-xs text-slate-500 mt-0.5">최근 소방시설 안전점검 결과 및 영업배상책임보험 가입 증명원</p>
-                            </div>
-                        </div>
-                        <div class="shrink-0 flex items-center gap-3">
-                            <a href="./files/01_hotel_safety.pdf" target="_blank" class="no-print bg-white border border-slate-300 text-slate-700 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300 px-3 py-1.5 rounded text-xs font-bold transition-all shadow-sm flex items-center gap-1.5">
+                            <a href="#" data-file="01_hotel.pdf" target="_blank" class="dynamic-doc-link no-print bg-white border border-slate-300 text-slate-700 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300 px-3 py-1.5 rounded text-xs font-bold transition-all shadow-sm flex items-center gap-1.5">
                                 <i class="ph ph-eye text-sm"></i> 열람/다운로드
                             </a>
                         </div>
@@ -264,7 +251,7 @@
             <div class="bg-white border border-slate-200 rounded-lg shadow-sm overflow-hidden break-inside-avoid">
                 <div class="bg-slate-50 px-5 py-3 border-b border-slate-200 flex items-center justify-between">
                     <h3 class="font-bold text-slate-800 flex items-center gap-2">
-                        <i class="ph ph-bus text-teal-500 text-lg"></i> 02. 운행 차량 및 교통 안전 서류
+                        <i class="ph ph-bus text-teal-500 text-lg"></i> 02. 차량 관련 서류 일체
                     </h3>
                 </div>
                 <div class="divide-y divide-slate-100">
@@ -272,32 +259,18 @@
                         <div class="flex items-center gap-3">
                             <i class="ph ph-file-pdf text-rose-500 text-2xl"></i>
                             <div>
-                                <p class="text-sm font-bold text-slate-800">여객자동차 운송사업등록증 및 차량등록증</p>
-                                <p class="text-xs text-slate-500 mt-0.5">운행 버스회사 사업등록 및 배정 차량 등록 원부</p>
+                                <p class="text-sm font-bold text-slate-800">운행 차량회사 인허가, 보험 및 자격 서류 일체</p>
+                                <p class="text-xs text-slate-500 mt-0.5">운송사업허가증, 차량등록증, 종합보험증권, 운전자 적성정밀검사 결과 등</p>
                             </div>
                         </div>
                         <div class="shrink-0 flex items-center gap-3">
-                            <a href="./files/02_bus_license.pdf" target="_blank" class="no-print bg-white border border-slate-300 text-slate-700 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300 px-3 py-1.5 rounded text-xs font-bold transition-all shadow-sm flex items-center gap-1.5">
-                                <i class="ph ph-eye text-sm"></i> 열람/다운로드
-                            </a>
-                        </div>
-                    </div>
-                    <div class="table-row-hover px-5 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors">
-                        <div class="flex items-center gap-3">
-                            <i class="ph ph-file-pdf text-rose-500 text-2xl"></i>
-                            <div>
-                                <p class="text-sm font-bold text-slate-800">차량 자동차종합보험 및 운전자 자격 증빙</p>
-                                <p class="text-xs text-slate-500 mt-0.5">공제조합 가입증명서, 대형면허증 및 운전자 적성정밀검사 결과표</p>
-                            </div>
-                        </div>
-                        <div class="shrink-0 flex items-center gap-3">
-                            <a href="./files/02_bus_insurance.pdf" target="_blank" class="no-print bg-white border border-slate-300 text-slate-700 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300 px-3 py-1.5 rounded text-xs font-bold transition-all shadow-sm flex items-center gap-1.5">
+                            <a href="#" data-file="02_bus.pdf" target="_blank" class="dynamic-doc-link no-print bg-white border border-slate-300 text-slate-700 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300 px-3 py-1.5 rounded text-xs font-bold transition-all shadow-sm flex items-center gap-1.5">
                                 <i class="ph ph-eye text-sm"></i> 열람/다운로드
                             </a>
                         </div>
                     </div>
                     
-                    <!-- 음주측정 기록지: 사후 제출 -->
+                    <!-- 음주측정 기록지: 현장 운영의 디테일을 보여주는 사후 제출용 안내 -->
                     <div class="px-5 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-50">
                         <div class="flex items-center gap-3">
                             <i class="ph ph-file-dashed text-slate-400 text-2xl"></i>
@@ -322,7 +295,7 @@
             <div class="bg-white border border-slate-200 rounded-lg shadow-sm overflow-hidden break-inside-avoid">
                 <div class="bg-slate-50 px-5 py-3 border-b border-slate-200 flex items-center justify-between">
                     <h3 class="font-bold text-slate-800 flex items-center gap-2">
-                        <i class="ph ph-fork-knife text-orange-500 text-lg"></i> 03. 식사 및 위생 관련 서류
+                        <i class="ph ph-fork-knife text-orange-500 text-lg"></i> 03. 식사 관련 서류 일체
                     </h3>
                 </div>
                 <div class="divide-y divide-slate-100">
@@ -330,12 +303,12 @@
                         <div class="flex items-center gap-3">
                             <i class="ph ph-file-pdf text-rose-500 text-2xl"></i>
                             <div>
-                                <p class="text-sm font-bold text-slate-800">일자별 식단표 및 식당 영업/위생 서류</p>
-                                <p class="text-xs text-slate-500 mt-0.5">전 일정 식단 정보, 영업신고증, 집단급식소 설치신고증, 책임보험 등</p>
+                                <p class="text-sm font-bold text-slate-800">일자별 식단표 및 식당 위생 서류 일체</p>
+                                <p class="text-xs text-slate-500 mt-0.5">전 일정 식단 정보, 식당 영업/집단급식소 설치신고증, 배상책임보험 등</p>
                             </div>
                         </div>
                         <div class="shrink-0 flex items-center gap-3">
-                            <a href="./files/03_meal_plan.pdf" target="_blank" class="no-print bg-white border border-slate-300 text-slate-700 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300 px-3 py-1.5 rounded text-xs font-bold transition-all shadow-sm flex items-center gap-1.5">
+                            <a href="#" data-file="03_meal.pdf" target="_blank" class="dynamic-doc-link no-print bg-white border border-slate-300 text-slate-700 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300 px-3 py-1.5 rounded text-xs font-bold transition-all shadow-sm flex items-center gap-1.5">
                                 <i class="ph ph-eye text-sm"></i> 열람/다운로드
                             </a>
                         </div>
@@ -347,7 +320,7 @@
             <div class="bg-white border border-slate-200 rounded-lg shadow-sm overflow-hidden break-inside-avoid">
                 <div class="bg-slate-50 px-5 py-3 border-b border-slate-200 flex items-center justify-between">
                     <h3 class="font-bold text-slate-800 flex items-center gap-2">
-                        <i class="ph ph-shield-plus text-blue-600 text-lg"></i> 04. 인솔자(안전요원) 및 여행자보험 서류
+                        <i class="ph ph-shield-plus text-blue-600 text-lg"></i> 04. 기타 (안전 및 보험 서류 일체)
                     </h3>
                 </div>
                 <div class="divide-y divide-slate-100">
@@ -355,26 +328,12 @@
                         <div class="flex items-center gap-3">
                             <i class="ph ph-file-pdf text-rose-500 text-2xl"></i>
                             <div>
-                                <p class="text-sm font-bold text-slate-800">현장 인솔자(안전요원) 자격 및 신원확인 서류</p>
-                                <p class="text-xs text-slate-500 mt-0.5">안전요원 자격/이수증 또는 성범죄 및 아동학대관련범죄 전력 조회 동의서</p>
+                                <p class="text-sm font-bold text-slate-800">인솔자(안전요원) 신원확인 및 여행자보험 서류 일체</p>
+                                <p class="text-xs text-slate-500 mt-0.5">안전요원 성범죄 등 전력 조회 동의서 및 단체 여행자보험 가입증명원</p>
                             </div>
                         </div>
                         <div class="shrink-0 flex items-center gap-3">
-                            <a href="./files/04_safety_check.pdf" target="_blank" class="no-print bg-white border border-slate-300 text-slate-700 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300 px-3 py-1.5 rounded text-xs font-bold transition-all shadow-sm flex items-center gap-1.5">
-                                <i class="ph ph-eye text-sm"></i> 열람/다운로드
-                            </a>
-                        </div>
-                    </div>
-                    <div class="table-row-hover px-5 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors">
-                        <div class="flex items-center gap-3">
-                            <i class="ph ph-file-pdf text-rose-500 text-2xl"></i>
-                            <div>
-                                <p class="text-sm font-bold text-slate-800">여행자보험 가입증명서 및 요약약관</p>
-                                <p class="text-xs text-slate-500 mt-0.5">현장체험학습 참가자 전원 상해/질병 보장 단체 가입 증명원</p>
-                            </div>
-                        </div>
-                        <div class="shrink-0 flex items-center gap-3">
-                            <a href="./files/04_insurance.pdf" target="_blank" class="no-print bg-white border border-slate-300 text-slate-700 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300 px-3 py-1.5 rounded text-xs font-bold transition-all shadow-sm flex items-center gap-1.5">
+                            <a href="#" data-file="04_others.pdf" target="_blank" class="dynamic-doc-link no-print bg-white border border-slate-300 text-slate-700 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300 px-3 py-1.5 rounded text-xs font-bold transition-all shadow-sm flex items-center gap-1.5">
                                 <i class="ph ph-eye text-sm"></i> 열람/다운로드
                             </a>
                         </div>
@@ -405,11 +364,11 @@
         <span id="toast-msg">복사되었습니다.</span>
     </div>
 
-    <!-- 스크립트: URL 파라미터 제어 및 보안 잠금 로직 -->
+    <!-- 스크립트: URL 파라미터 제어, 보안 잠금 및 동적 파일 경로 라우팅 -->
     <script>
         // 전역 변수 설정
-        let currentSchool = '문곡중학교';
-        let currentProgram = '국내현장체험학습';
+        let currentSchool = '남평초등학교';
+        let currentProgram = '국외현장체험학습';
         let encodedPassword = null;
 
         // 페이지 로드 시 URL 파라미터 확인
@@ -428,10 +387,10 @@
                 document.getElementById('admin-program-name').value = currentProgram;
             }
 
-            // 초기 텍스트 렌더링
+            // 초기 텍스트 및 PDF 링크 경로 자동 업데이트
             updatePreviewText();
 
-            // 3. 비밀번호 파라미터가 있으면 잠금 화면 표시
+            // 3. 비밀번호 파라미터 처리
             if(urlParams.has('pwd')) {
                 encodedPassword = urlParams.get('pwd');
                 document.getElementById('lock-screen').classList.remove('hidden');
@@ -442,29 +401,41 @@
             }
         };
 
-        // DOM의 텍스트(학교명, 프로그램명) 실시간 업데이트
+        // 핵심 기술: 학교명에 맞춰 PDF 파일 경로를 자동으로 바꿔주는 함수
+        function updateDynamicLinks(schoolName) {
+            const links = document.querySelectorAll('.dynamic-doc-link');
+            const safeSchoolName = schoolName.trim(); 
+            
+            links.forEach(link => {
+                const fileName = link.getAttribute('data-file');
+                link.href = `./files/${safeSchoolName}/${fileName}`;
+            });
+        }
+
+        // DOM의 텍스트 업데이트 및 링크 재설정
         function updatePreviewText() {
-            const inputSchool = document.getElementById('admin-school-name').value || '문곡중학교';
-            const inputProgram = document.getElementById('admin-program-name').value || '국내현장체험학습';
+            const inputSchool = document.getElementById('admin-school-name').value || '남평초등학교';
+            const inputProgram = document.getElementById('admin-program-name').value || '국외현장체험학습';
             
             document.querySelectorAll('.school-name-display').forEach(el => el.innerText = inputSchool);
             document.querySelectorAll('.program-name-display').forEach(el => el.innerText = inputProgram);
+            
+            // 링크 업데이트 함수 호출
+            updateDynamicLinks(inputSchool);
         }
 
-        // 달력에서 날짜 선택 시 비밀번호(YYMMDD) 자동 생성 함수
+        // 달력에서 날짜 선택 시 비밀번호 자동 생성
         function autoGeneratePassword() {
             const dateInput = document.getElementById('admin-departure-date').value;
             if (dateInput) {
                 const yy = dateInput.substring(2, 4);
                 const mm = dateInput.substring(5, 7);
                 const dd = dateInput.substring(8, 10);
-                
-                const generatedPwd = yy + mm + dd;
-                document.getElementById('admin-password').value = generatedPwd;
+                document.getElementById('admin-password').value = yy + mm + dd;
             }
         }
 
-        // 비밀번호 확인 로직 (잠금화면 해제)
+        // 비밀번호 확인 로직
         function checkPassword() {
             const inputPwd = document.getElementById('pwd-input').value;
             const errorMsg = document.getElementById('pwd-error');
@@ -485,27 +456,27 @@
             sidebar.classList.toggle('sidebar-open');
         }
 
-        // 파일 업로드 안내창 (명확하게 깃허브 업로드임을 안내)
+        // 파일 업로드 안내창
         function simulateUpload() {
-            alert("[투어메이커 보안 시스템 안내]\n\n이 페이지의 업로드 버튼은 안내용입니다.\n실제 서류(PDF)는 대표님의 [GitHub 저장소 -> files 폴더] 안에 지정된 파일명(01_hotel_license.pdf 등)으로 직접 드래그 앤 드롭하여 덮어쓰기 하셔야 합니다.\n\nGitHub에 서류 세팅이 끝났다면, 하단의 [보안링크 자동생성]을 눌러 학교로 전달해 주세요.");
+            alert("[안전한 데이터 보존을 위한 업로드 가이드]\n\n1. 바탕화면에 [해당 학교명]으로 폴더를 만듭니다.\n2. 그 안에 병합된 4개의 파일(01_hotel.pdf 등)을 넣습니다.\n3. GitHub 저장소의 'files' 폴더 안에 이 학교 폴더를 통째로 던져 넣으세요.\n\n이렇게 하면 지난 학교 서류도 지워지지 않고 영구 보존됩니다.");
         }
 
         // URL 링크 생성 및 복사
         function generateLink() {
-            const schoolName = document.getElementById('admin-school-name').value || '문곡중학교';
-            const programName = document.getElementById('admin-program-name').value || '국내현장체험학습';
+            const schoolName = document.getElementById('admin-school-name').value || '남평초등학교';
+            const programName = document.getElementById('admin-program-name').value || '국외현장체험학습';
             const rawPwd = document.getElementById('admin-password').value;
             
             let url = new URL(window.location.href.split('?')[0]); 
-            url.searchParams.set('school', schoolName);
-            url.searchParams.set('program', programName); // 프로그램명 파라미터 추가
+            url.searchParams.set('school', schoolName.trim());
+            url.searchParams.set('program', programName.trim());
             
             if(rawPwd.trim() !== '') {
                 url.searchParams.set('pwd', btoa(rawPwd.trim()));
             }
 
             navigator.clipboard.writeText(url.toString()).then(() => {
-                showToast("링크가 복사되었습니다! 학교 행정실 주무관에게 전달해 주세요.");
+                showToast(`[${schoolName}] 링크가 복사되었습니다!`);
                 setTimeout(() => { toggleSidebar(); }, 1500); 
             });
         }

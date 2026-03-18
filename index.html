@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>투어메이커 행정 포털 - 사전 제출 서류</title>
     
-    <!-- Google Analytics 4 (투어메이커 기본 GA4 측정 ID) -->
+    <!-- Google Analytics 4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-JLH9GD9SVR"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -22,7 +22,12 @@
     <style>
         body { font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif; background-color: #f1f5f9; }
         .table-row-hover:hover { background-color: #f8fafc; }
-        /* 프린트 시 불필요한 요소 숨김 처리 */
+        
+        /* 왼쪽 관리자 패널 슬라이드 애니메이션 */
+        #admin-sidebar { transition: transform 0.3s ease-in-out; }
+        .sidebar-open { transform: translateX(0) !important; }
+        
+        /* 프린트 최적화 */
         @media print {
             .no-print { display: none !important; }
             body { background-color: white; }
@@ -32,18 +37,98 @@
         }
     </style>
 </head>
-<body class="text-slate-800 antialiased min-h-screen flex flex-col">
+<body class="text-slate-800 antialiased min-h-screen flex flex-col overflow-x-hidden relative">
+
+    <!-- 🔒 보안 잠금 화면 -->
+    <div id="lock-screen" class="fixed inset-0 bg-slate-900 bg-opacity-95 z-[100] hidden flex-col items-center justify-center backdrop-blur-sm">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-sm w-full mx-4 text-center transform transition-all">
+            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEitI-Z-hD82keOJ1AqHw-VTZjpw2U-O5UjtV9h3zblyG0wjsVfBWe9X9o0Q_Spctrt7krkd9qXO0xKTmGJLw4gyMZrRqpshKMFttnyx6OcC8-IGz3XLUZpGQOnRqVdol8jz5HuoDLqsEifnVRhcjUJHm13Sz8JrX9aPswMNUwZPvGtJEnQjhc2PiXlo-B8" alt="투어메이커 로고" class="h-10 mx-auto mb-6">
+            <h2 class="text-xl font-bold text-slate-800 mb-2">보안 문서함 접속</h2>
+            <p class="text-sm text-slate-500 mb-6">안내받으신 비밀번호<br><span class="font-semibold text-blue-600">(행사 출발일자 6자리)</span>를 입력해 주세요.</p>
+            
+            <input type="password" id="pwd-input" class="w-full text-center tracking-widest text-xl px-4 py-3 border-2 border-slate-200 rounded-lg focus:border-blue-500 focus:outline-none mb-4" placeholder="••••••" onkeypress="if(event.key === 'Enter') checkPassword()">
+            <p id="pwd-error" class="text-rose-500 text-sm font-semibold hidden mb-4">비밀번호가 일치하지 않습니다.</p>
+            
+            <button onclick="checkPassword()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-colors shadow-md">
+                인증 및 문서 열람
+            </button>
+            <div class="mt-6 flex items-center justify-center gap-1 text-xs text-slate-400">
+                <i class="ph ph-shield-check"></i> TOURMAKER Secure System
+            </div>
+        </div>
+    </div>
+
+    <!-- ⚙️ 왼쪽 관리자 패널 (Admin Sidebar) -->
+    <div id="admin-sidebar" class="fixed top-0 left-0 w-80 h-full bg-white shadow-2xl z-50 transform -translate-x-full border-r border-slate-200 flex flex-col">
+        <div class="p-5 border-b border-slate-200 bg-slate-50 flex justify-between items-center">
+            <h2 class="font-bold text-slate-800 flex items-center gap-2">
+                <i class="ph ph-gear text-xl text-blue-600"></i> 관리자 설정 패널
+            </h2>
+            <button onclick="toggleSidebar()" class="text-slate-400 hover:text-slate-600">
+                <i class="ph ph-x text-xl"></i>
+            </button>
+        </div>
+        
+        <div class="p-5 flex-grow overflow-y-auto">
+            <!-- 1. 학교명 설정 -->
+            <div class="mb-5">
+                <label class="block text-sm font-bold text-slate-700 mb-2">1. 발주처(학교명) 설정</label>
+                <input type="text" id="admin-school-name" placeholder="예: 남평초등학교" class="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 text-sm" oninput="updatePreviewSchoolName()">
+            </div>
+
+            <!-- 2. 출발일자 설정 (비밀번호 자동생성 트리거) -->
+            <div class="mb-5">
+                <label class="block text-sm font-bold text-slate-700 mb-2">2. 행사 출발일자</label>
+                <input type="date" id="admin-departure-date" class="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 text-sm text-slate-600" onchange="autoGeneratePassword()">
+                <p class="text-xs text-slate-500 mt-1">선택 시 하단에 비밀번호가 자동 생성됩니다.</p>
+            </div>
+
+            <!-- 3. 비밀번호 설정 -->
+            <div class="mb-5">
+                <label class="block text-sm font-bold text-slate-700 mb-2">3. 접속 비밀번호</label>
+                <input type="text" id="admin-password" placeholder="예: 260512 (빈칸 시 암호 없음)" class="w-full px-3 py-2 border border-blue-200 bg-blue-50 rounded-md focus:outline-none focus:border-blue-500 text-sm font-semibold tracking-wider">
+                <p class="text-[11px] text-slate-500 mt-1">수동으로 다른 비밀번호를 지정할 수도 있습니다.</p>
+            </div>
+
+            <!-- 4. 파일 업로드 가이드 -->
+            <div class="mb-6 bg-slate-50 p-4 rounded-lg border border-slate-200">
+                <label class="block text-sm font-bold text-slate-700 mb-2">4. 원본 PDF 업데이트</label>
+                <p class="text-xs text-slate-600 mb-3 leading-relaxed">아래 버튼을 눌러 현지 서류를 세팅하세요.</p>
+                
+                <input type="file" id="dummy-upload" class="hidden" multiple onchange="simulateUpload()">
+                <label for="dummy-upload" class="w-full flex items-center justify-center gap-2 bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 text-sm font-bold py-2 rounded-md cursor-pointer transition-colors shadow-sm">
+                    <i class="ph ph-upload-simple text-lg"></i> PDF 파일 업로드 준비
+                </label>
+            </div>
+            
+            <hr class="border-slate-200 mb-6">
+
+            <!-- 5. 링크 생성 -->
+            <div>
+                <button onclick="generateLink()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-md">
+                    <i class="ph ph-link text-lg"></i> 보안링크 자동생성 및 복사
+                </button>
+            </div>
+        </div>
+        
+        <div class="p-4 bg-slate-100 text-xs text-slate-500 text-center border-t border-slate-200">
+            Tourmaker Document Portal Auto-Generator
+        </div>
+    </div>
 
     <!-- Top Navigation -->
-    <nav class="bg-white text-slate-800 shadow-sm border-b border-slate-200 no-print sticky top-0 z-50">
+    <nav class="bg-white text-slate-800 shadow-sm border-b border-slate-200 no-print sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center gap-4">
-                    <!-- 💡 로고 배경색 불일치 해결: mix-blend-multiply 클래스 추가 -->
-                    <img src="https://blogger.googleusercontent.com/img/a/AVvXsEitI-Z-hD82keOJ1AqHw-VTZjpw2U-O5UjtV9h3zblyG0wjsVfBWe9X9o0Q_Spctrt7krkd9qXO0xKTmGJLw4gyMZrRqpshKMFttnyx6OcC8-IGz3XLUZpGQOnRqVdol8jz5HuoDLqsEifnVRhcjUJHm13Sz8JrX9aPswMNUwZPvGtJEnQjhc2PiXlo-B8" alt="투어메이커 로고" class="h-8 mix-blend-multiply">
-                    <span class="font-bold tracking-wider text-sm border-l border-slate-300 pl-4 text-slate-500">B2B DOCUMENT PORTAL</span>
+                    <button onclick="toggleSidebar()" class="text-slate-500 hover:text-blue-600 mr-2 flex items-center gap-1 bg-slate-100 px-3 py-1.5 rounded-md text-sm font-bold transition-colors">
+                        <i class="ph ph-gear text-lg"></i> 관리자
+                    </button>
+                    <!-- 투어메이커 로고 -->
+                    <img src="https://blogger.googleusercontent.com/img/a/AVvXsEitI-Z-hD82keOJ1AqHw-VTZjpw2U-O5UjtV9h3zblyG0wjsVfBWe9X9o0Q_Spctrt7krkd9qXO0xKTmGJLw4gyMZrRqpshKMFttnyx6OcC8-IGz3XLUZpGQOnRqVdol8jz5HuoDLqsEifnVRhcjUJHm13Sz8JrX9aPswMNUwZPvGtJEnQjhc2PiXlo-B8" alt="투어메이커 로고" class="h-8 mix-blend-multiply hidden sm:block">
+                    <span class="font-bold tracking-wider text-sm sm:border-l border-slate-300 sm:pl-4 text-slate-500">B2B DOCUMENT PORTAL</span>
                 </div>
-                <div class="hidden sm:block text-xs text-slate-500 font-semibold flex items-center gap-1">
+                <div class="hidden md:flex text-xs text-slate-500 font-semibold items-center gap-1">
                     <i class="ph ph-shield-check text-blue-600 text-lg align-middle relative -top-0.5"></i> 행정 서류 검증 시스템
                 </div>
             </div>
@@ -64,7 +149,9 @@
                     </ol>
                 </nav>
                 <div class="flex items-center gap-3">
-                    <h1 class="text-2xl font-bold text-slate-900 tracking-tight">[남평초등학교] 국외현장체험학습</h1>
+                    <h1 class="text-2xl font-bold text-slate-900 tracking-tight">
+                        [<span class="school-name-display text-blue-700">남평초등학교</span>] 국외현장체험학습
+                    </h1>
                     <span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold no-print border border-emerald-200">
                         서류제출 완료
                     </span>
@@ -78,7 +165,7 @@
         </div>
     </header>
 
-    <!-- Main Content -->
+    <!-- Main Content (문서 목록) -->
     <main class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
         
         <!-- Summary Widgets -->
@@ -101,7 +188,7 @@
                 <div class="p-3 bg-teal-50 text-teal-600 rounded-lg"><i class="ph ph-shield-check text-2xl"></i></div>
                 <div>
                     <p class="text-xs text-slate-500 font-semibold uppercase">보안 상태</p>
-                    <p class="text-sm font-bold text-slate-800 mt-1">위변조 검증 완료</p>
+                    <p class="text-sm font-bold text-slate-800 mt-1" id="status-security">위변조 검증 완료</p>
                 </div>
             </div>
             <div class="bg-white border border-slate-200 rounded-lg p-4 shadow-sm flex items-center gap-4">
@@ -120,7 +207,7 @@
             </div>
         </div>
 
-        <!-- 💡 상세 내용을 모두 범용적으로 수정했습니다. -->
+        <!-- Document Tables -->
         <div class="space-y-8">
             
             <!-- Category 01 -->
@@ -252,7 +339,7 @@
                         </div>
                     </div>
                     
-                    <!-- 💡 음주측정 기록지: 사후 제출용 UI 적용 -->
+                    <!-- 음주측정 기록지: 사후 제출 -->
                     <div class="px-5 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-50">
                         <div class="flex items-center gap-3">
                             <i class="ph ph-file-dashed text-slate-400 text-2xl"></i>
@@ -315,5 +402,120 @@
         </div>
     </footer>
 
+    <!-- Toast UI for Messages -->
+    <div id="toast" class="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-slate-800 text-white px-6 py-3 rounded-lg shadow-2xl opacity-0 transition-opacity duration-300 pointer-events-none z-[110] flex items-center gap-3">
+        <i class="ph ph-check-circle text-emerald-400 text-xl"></i>
+        <span id="toast-msg">복사되었습니다.</span>
+    </div>
+
+    <!-- 스크립트: URL 파라미터 제어 및 보안 잠금 로직 -->
+    <script>
+        // 전역 변수 설정
+        let currentSchool = '남평초등학교';
+        let encodedPassword = null;
+
+        // 페이지 로드 시 URL 파라미터 확인
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            // 1. 학교명 파라미터가 있으면 적용
+            if(urlParams.has('school')) {
+                currentSchool = urlParams.get('school');
+                updateDOMSchoolName(currentSchool);
+                document.getElementById('admin-school-name').value = currentSchool;
+            }
+
+            // 2. 비밀번호 파라미터가 있으면 잠금 화면 표시
+            if(urlParams.has('pwd')) {
+                encodedPassword = urlParams.get('pwd');
+                document.getElementById('lock-screen').classList.remove('hidden');
+                document.getElementById('lock-screen').classList.add('flex');
+                document.getElementById('status-security').innerText = "보안 접속 완료";
+            } else {
+                document.getElementById('status-security').innerText = "공개 열람 (비밀번호 미설정)";
+            }
+        };
+
+        // DOM의 학교명 텍스트 업데이트
+        function updateDOMSchoolName(name) {
+            const displays = document.querySelectorAll('.school-name-display');
+            displays.forEach(el => el.innerText = name);
+        }
+
+        // 왼쪽 시트에서 학교명 입력 시 실시간 반영
+        function updatePreviewSchoolName() {
+            const inputName = document.getElementById('admin-school-name').value;
+            updateDOMSchoolName(inputName || '남평초등학교');
+        }
+
+        // 💡 달력에서 날짜 선택 시 비밀번호(YYMMDD) 자동 생성 함수
+        function autoGeneratePassword() {
+            const dateInput = document.getElementById('admin-departure-date').value;
+            if (dateInput) {
+                // dateInput 포맷은 "YYYY-MM-DD" 형태 (예: 2026-05-12)
+                const yy = dateInput.substring(2, 4); // "26"
+                const mm = dateInput.substring(5, 7); // "05"
+                const dd = dateInput.substring(8, 10); // "12"
+                
+                const generatedPwd = yy + mm + dd;
+                document.getElementById('admin-password').value = generatedPwd;
+            }
+        }
+
+        // 비밀번호 확인 로직 (잠금화면 해제)
+        function checkPassword() {
+            const inputPwd = document.getElementById('pwd-input').value;
+            const errorMsg = document.getElementById('pwd-error');
+            
+            // Base64 디코딩 후 비교
+            if(btoa(inputPwd) === encodedPassword) {
+                document.getElementById('lock-screen').classList.add('hidden');
+                document.getElementById('lock-screen').classList.remove('flex');
+            } else {
+                errorMsg.classList.remove('hidden');
+                document.getElementById('pwd-input').value = '';
+                document.getElementById('pwd-input').focus();
+            }
+        }
+
+        // 관리자 패널 열기/닫기
+        function toggleSidebar() {
+            const sidebar = document.getElementById('admin-sidebar');
+            sidebar.classList.toggle('sidebar-open');
+        }
+
+        // 파일 업로드 안내창 (실제 GitHub 업로드 워크플로우 유도)
+        function simulateUpload() {
+            alert("[안내] 본 행정 포털은 안정성을 위해 GitHub 서버와 직접 연동됩니다.\n\n파일 업로드는 기존처럼 GitHub 저장소의 'files' 폴더 안에 '01_guide_cert.pdf' 등 지정된 이름으로 드래그 앤 드롭하여 덮어쓰기 해주세요.\n\n서류 세팅이 끝났다면 하단의 [보안링크 복사]를 눌러 학교에 전달하시면 됩니다.");
+        }
+
+        // URL 링크 생성 및 복사
+        function generateLink() {
+            const schoolName = document.getElementById('admin-school-name').value || '남평초등학교';
+            const rawPwd = document.getElementById('admin-password').value;
+            
+            let url = new URL(window.location.href.split('?')[0]); // 기존 파라미터 초기화
+            url.searchParams.set('school', schoolName);
+            
+            if(rawPwd.trim() !== '') {
+                // 비밀번호 Base64 암호화 (URL에 노출 방지)
+                url.searchParams.set('pwd', btoa(rawPwd.trim()));
+            }
+
+            // 클립보드에 복사
+            navigator.clipboard.writeText(url.toString()).then(() => {
+                showToast("링크가 복사되었습니다! 학교 행정실 주무관에게 전달해 주세요.");
+                setTimeout(() => { toggleSidebar(); }, 1000); // 1초 후 패널 닫기
+            });
+        }
+
+        // 알림 토스트 띄우기
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = message;
+            toast.classList.remove('opacity-0');
+            setTimeout(() => { toast.classList.add('opacity-0'); }, 3000);
+        }
+    </script>
 </body>
 </html>

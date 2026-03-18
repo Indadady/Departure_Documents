@@ -34,13 +34,13 @@
 </head>
 <body class="text-slate-800 antialiased min-h-screen flex flex-col">
 
-    <!-- Top Navigation (Admin Style - 밝은 테마로 변경하여 로고와 조화) -->
+    <!-- Top Navigation -->
     <nav class="bg-white text-slate-800 shadow-sm border-b border-slate-200 no-print sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center gap-4">
-                    <!-- 투어메이커 로고 (배경색 충돌 해결) -->
-                    <img src="https://blogger.googleusercontent.com/img/a/AVvXsEitI-Z-hD82keOJ1AqHw-VTZjpw2U-O5UjtV9h3zblyG0wjsVfBWe9X9o0Q_Spctrt7krkd9qXO0xKTmGJLw4gyMZrRqpshKMFttnyx6OcC8-IGz3XLUZpGQOnRqVdol8jz5HuoDLqsEifnVRhcjUJHm13Sz8JrX9aPswMNUwZPvGtJEnQjhc2PiXlo-B8" alt="투어메이커 로고" class="h-8">
+                    <!-- 💡 로고 배경색 불일치 해결: mix-blend-multiply 클래스 추가 -->
+                    <img src="https://blogger.googleusercontent.com/img/a/AVvXsEitI-Z-hD82keOJ1AqHw-VTZjpw2U-O5UjtV9h3zblyG0wjsVfBWe9X9o0Q_Spctrt7krkd9qXO0xKTmGJLw4gyMZrRqpshKMFttnyx6OcC8-IGz3XLUZpGQOnRqVdol8jz5HuoDLqsEifnVRhcjUJHm13Sz8JrX9aPswMNUwZPvGtJEnQjhc2PiXlo-B8" alt="투어메이커 로고" class="h-8 mix-blend-multiply">
                     <span class="font-bold tracking-wider text-sm border-l border-slate-300 pl-4 text-slate-500">B2B DOCUMENT PORTAL</span>
                 </div>
                 <div class="hidden sm:block text-xs text-slate-500 font-semibold flex items-center gap-1">
@@ -50,7 +50,7 @@
         </div>
     </nav>
 
-    <!-- Page Header (Breadcrumbs & Actions) -->
+    <!-- Page Header -->
     <header class="bg-white border-b border-slate-200 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
@@ -64,7 +64,6 @@
                     </ol>
                 </nav>
                 <div class="flex items-center gap-3">
-                    <!-- 💡 학교명이 바뀔 때 이곳만 텍스트를 수정하시면 됩니다. -->
                     <h1 class="text-2xl font-bold text-slate-900 tracking-tight">[남평초등학교] 국외현장체험학습</h1>
                     <span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold no-print border border-emerald-200">
                         서류제출 완료
@@ -82,7 +81,7 @@
     <!-- Main Content -->
     <main class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
         
-        <!-- Summary Widgets (Dashboard Feel) -->
+        <!-- Summary Widgets -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8 no-print">
             <div class="bg-white border border-slate-200 rounded-lg p-4 shadow-sm flex items-center gap-4">
                 <div class="p-3 bg-blue-50 text-blue-600 rounded-lg"><i class="ph ph-files text-2xl"></i></div>
@@ -121,7 +120,7 @@
             </div>
         </div>
 
-        <!-- Document Tables (포괄적이고 범용적인 텍스트로 수정) -->
+        <!-- 💡 상세 내용을 모두 범용적으로 수정했습니다. -->
         <div class="space-y-8">
             
             <!-- Category 01 -->
@@ -132,7 +131,6 @@
                     </h3>
                 </div>
                 <div class="divide-y divide-slate-100">
-                    <!-- Row -->
                     <div class="table-row-hover px-5 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors">
                         <div class="flex items-center gap-3">
                             <i class="ph ph-file-pdf text-rose-500 text-2xl"></i>
@@ -147,13 +145,12 @@
                             </a>
                         </div>
                     </div>
-                    <!-- Row -->
                     <div class="table-row-hover px-5 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors">
                         <div class="flex items-center gap-3">
                             <i class="ph ph-file-pdf text-rose-500 text-2xl"></i>
                             <div>
                                 <p class="text-sm font-bold text-slate-800">성범죄 및 아동학대관련범죄 전력 조회 동의서</p>
-                                <p class="text-xs text-slate-500 mt-0.5">참여 인력 대상 성범죄 등 전력 조회 동의 내역</p>
+                                <p class="text-xs text-slate-500 mt-0.5">현장 행사 참여 인력 대상 성범죄 등 전력 조회 동의 내역</p>
                             </div>
                         </div>
                         <div class="shrink-0 flex items-center gap-3">
@@ -162,13 +159,12 @@
                             </a>
                         </div>
                     </div>
-                    <!-- Row -->
                     <div class="table-row-hover px-5 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors">
                         <div class="flex items-center gap-3">
                             <i class="ph ph-file-pdf text-rose-500 text-2xl"></i>
                             <div>
-                                <p class="text-sm font-bold text-slate-800">여행자보험 가입증명서 및 요약약관</p>
-                                <p class="text-xs text-slate-500 mt-0.5">현장체험학습 참가자 전원 해외여행자보험 단체 가입 증명원</p>
+                                <p class="text-sm font-bold text-slate-800">해외여행자보험 단체 가입증명서 및 요약약관</p>
+                                <p class="text-xs text-slate-500 mt-0.5">현장체험학습 참가자 전원 해외여행자보험 가입 증명원</p>
                             </div>
                         </div>
                         <div class="shrink-0 flex items-center gap-3">
@@ -192,8 +188,8 @@
                         <div class="flex items-center gap-3">
                             <i class="ph ph-file-pdf text-rose-500 text-2xl"></i>
                             <div>
-                                <p class="text-sm font-bold text-slate-800">현지 숙박 시설 안전 및 예약 서류 (1)</p>
-                                <p class="text-xs text-slate-500 mt-0.5">숙박업소 예약증명, 소방설비 검사필증, 영업배상책임보험 등</p>
+                                <p class="text-sm font-bold text-slate-800">현지 숙박시설(1) 안전 및 예약 서류</p>
+                                <p class="text-xs text-slate-500 mt-0.5">숙박업소 예약확인서, 소방설비 검사필증, 영업배상책임보험 등</p>
                             </div>
                         </div>
                         <div class="shrink-0 flex items-center gap-3">
@@ -206,8 +202,8 @@
                         <div class="flex items-center gap-3">
                             <i class="ph ph-file-pdf text-rose-500 text-2xl"></i>
                             <div>
-                                <p class="text-sm font-bold text-slate-800">현지 숙박 시설 안전 및 예약 서류 (2)</p>
-                                <p class="text-xs text-slate-500 mt-0.5">숙박업소 예약증명, 방화기준 적합통지서, 책임보험 등 (해당 시)</p>
+                                <p class="text-sm font-bold text-slate-800">현지 숙박시설(2) 안전 및 예약 서류</p>
+                                <p class="text-xs text-slate-500 mt-0.5">숙박업소 예약확인서, 방화기준 적합통지서, 책임보험 등</p>
                             </div>
                         </div>
                         <div class="shrink-0 flex items-center gap-3">
@@ -245,7 +241,7 @@
                         <div class="flex items-center gap-3">
                             <i class="ph ph-file-pdf text-rose-500 text-2xl"></i>
                             <div>
-                                <p class="text-sm font-bold text-slate-800">운행 차량 보험증권 (자동차종합보험)</p>
+                                <p class="text-sm font-bold text-slate-800">현지 운행 차량 보험증권 (자동차종합보험)</p>
                                 <p class="text-xs text-slate-500 mt-0.5">현지 운행 차량별 종합보험(대인/대물) 가입 증명원</p>
                             </div>
                         </div>

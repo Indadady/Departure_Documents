@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>투어메이커 행정 포털 - 사전 제출 서류</title>
     
+    <!-- 카카오톡 등 링크 공유 시 표시될 썸네일 (Open Graph) -->
+    <meta property="og:title" content="투어메이커 사전 제출 서류 포털">
+    <meta property="og:description" content="발주처(학교/기관) 전용 안전 행정 서류 검증 시스템">
+    <meta property="og:image" content="https://blogger.googleusercontent.com/img/a/AVvXsEhPxG_ONo2BdFAGDNnn-pHIGJTrAq374YbqgwTTlyIZTP22kOWTDD_AyjKDNFPhsHg5t1Iq6zV0dL_NZIj4o97Kd0eWJYCv-NHhtIqme-Mp3htGhAdkqVv5NRU3Jc9TbdbvvVKrPslObA1oNABpgl12QtGwirC2QM5lcPCVoWm8pIbeKuZBbeDHAvpbKEQ">
+    <meta property="og:type" content="website">
+
     <!-- Google Analytics 4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-JLH9GD9SVR"></script>
     <script>
@@ -76,7 +82,7 @@
                 <input type="text" id="admin-school-name" placeholder="예: 문곡중학교" class="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 text-sm" oninput="updatePreviewText()">
             </div>
 
-            <!-- 2. 프로그램명 설정 (신규) -->
+            <!-- 2. 프로그램명 설정 -->
             <div class="mb-4">
                 <label class="block text-sm font-bold text-slate-700 mb-2">2. 프로그램명 설정</label>
                 <input type="text" id="admin-program-name" placeholder="예: 수학여행, 국외현장체험학습" class="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 text-sm" oninput="updatePreviewText()">
@@ -212,7 +218,7 @@
             </div>
         </div>
 
-        <!-- 💡 범용(국내/국외 통합) 카테고리: 1. 숙박, 2. 차량, 3. 식사, 4. 기타(안전/보험) -->
+        <!-- 범용 카테고리 -->
         <div class="space-y-8">
             
             <!-- Category 01: 숙박 -->
@@ -291,7 +297,7 @@
                         </div>
                     </div>
                     
-                    <!-- 음주측정 기록지: 사후 제출 유지 -->
+                    <!-- 음주측정 기록지: 사후 제출 -->
                     <div class="px-5 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-50">
                         <div class="flex items-center gap-3">
                             <i class="ph ph-file-dashed text-slate-400 text-2xl"></i>
@@ -337,7 +343,7 @@
                 </div>
             </div>
 
-            <!-- Category 04: 기타 (안전요원 및 보험) -->
+            <!-- Category 04: 기타 -->
             <div class="bg-white border border-slate-200 rounded-lg shadow-sm overflow-hidden break-inside-avoid">
                 <div class="bg-slate-50 px-5 py-3 border-b border-slate-200 flex items-center justify-between">
                     <h3 class="font-bold text-slate-800 flex items-center gap-2">
@@ -401,7 +407,7 @@
 
     <!-- 스크립트: URL 파라미터 제어 및 보안 잠금 로직 -->
     <script>
-        // 전역 변수 설정 (기본값)
+        // 전역 변수 설정
         let currentSchool = '문곡중학교';
         let currentProgram = '국내현장체험학습';
         let encodedPassword = null;
@@ -439,7 +445,7 @@
         // DOM의 텍스트(학교명, 프로그램명) 실시간 업데이트
         function updatePreviewText() {
             const inputSchool = document.getElementById('admin-school-name').value || '문곡중학교';
-            const inputProgram = document.getElementById('admin-program-name').value || '수학여행';
+            const inputProgram = document.getElementById('admin-program-name').value || '국내현장체험학습';
             
             document.querySelectorAll('.school-name-display').forEach(el => el.innerText = inputSchool);
             document.querySelectorAll('.program-name-display').forEach(el => el.innerText = inputProgram);
@@ -487,7 +493,7 @@
         // URL 링크 생성 및 복사
         function generateLink() {
             const schoolName = document.getElementById('admin-school-name').value || '문곡중학교';
-            const programName = document.getElementById('admin-program-name').value || '수학여행';
+            const programName = document.getElementById('admin-program-name').value || '국내현장체험학습';
             const rawPwd = document.getElementById('admin-password').value;
             
             let url = new URL(window.location.href.split('?')[0]); 

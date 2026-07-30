@@ -1,0 +1,28 @@
+{
+  "schools": [
+    {
+      "school": "남평초",
+      "program": "국외현장체험학습",
+      "pwd": "",
+      "shortPath": "",
+      "updated": "2026-07-30",
+      "note": "files/남평초 등록됨 · 비밀번호는 링크 생성 시 저장"
+    },
+    {
+      "school": "문곡중학교",
+      "program": "국외현장체험학습",
+      "pwd": "",
+      "shortPath": "",
+      "updated": "2026-07-30",
+      "note": "files/문곡중학교 등록됨 · 비밀번호는 링크 생성 시 저장"
+    },
+    {
+      "school": "사북고등학교",
+      "program": "국외현장체험학습",
+      "pwd": "",
+      "shortPath": "",
+      "updated": "2026-07-30",
+      "note": "files/사북고등학교 등록됨 · 비밀번호는 링크 생성 시 저장"
+    }
+  ]
+}

@@ -1,6 +1,14 @@
 {
   "schools": [
     {
+      "school": "고한중학교",
+      "program": "국외현장체험학습",
+      "pwd": "260908",
+      "shortPath": "gohanjung/",
+      "updated": "2026-08-11",
+      "note": "일본 · 국내 차량(영월관광) 등록 · 현지 서류 18~19일 예정"
+    },
+    {
       "school": "남평초",
       "program": "국외현장체험학습",
       "pwd": "",

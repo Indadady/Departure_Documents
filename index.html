@@ -423,15 +423,32 @@
             return window.location.href.split('?')[0].replace(/index\.html$/i, '');
         }
 
+        /** Match typed school name to schools.json (e.g. 고한중학 → 고한중학교). */
+        function findRegisteredSchool(input) {
+            const q = (input || '').trim();
+            if (!q) return null;
+            const exact = seededSchools.find(s => (s.school || '').trim() === q);
+            if (exact) return exact;
+            const qBase = q.replace(/학교$/, '');
+            return seededSchools.find(s => {
+                const name = (s.school || '').trim();
+                if (!name) return false;
+                const base = name.replace(/학교$/, '');
+                return name.startsWith(q) || q.startsWith(base) || base === qBase || name.includes(q);
+            }) || null;
+        }
+
         function buildSchoolUrls(school, program, pwd) {
+            const reg = findRegisteredSchool(school);
+            const canonicalSchool = ((reg && reg.school) || school || '').trim();
             const url = new URL(portalBaseUrl());
-            url.searchParams.set('school', school.trim());
-            url.searchParams.set('program', (program || '국외현장체험학습').trim());
+            url.searchParams.set('school', canonicalSchool);
+            url.searchParams.set('program', (program || (reg && reg.program) || '국외현장체험학습').trim());
             if (pwd && String(pwd).trim()) url.searchParams.set('pwd', btoa(String(pwd).trim()));
             const longUrl = url.toString();
-            const shortPath = SCHOOL_SHORT_PATHS[school.trim()] || null;
+            const shortPath = (reg && reg.shortPath) || SCHOOL_SHORT_PATHS[canonicalSchool] || SCHOOL_SHORT_PATHS[(school || '').trim()] || null;
             const shortUrl = shortPath ? new URL(shortPath, portalBaseUrl()).toString() : null;
-            return { longUrl, shortUrl, shortPath };
+            return { longUrl, shortUrl, shortPath, canonicalSchool };
         }
 
         function loadLocalHistory() {
@@ -447,7 +464,12 @@
         }
 
         function upsertLinkHistory(entry) {
-            const list = loadLocalHistory().filter(x => x.school !== entry.school);
+            const list = loadLocalHistory().filter(x => {
+                if (x.school === entry.school) return false;
+                const reg = findRegisteredSchool(x.school);
+                if (reg && reg.school === entry.school) return false;
+                return true;
+            });
             list.unshift(entry);
             saveLocalHistory(list);
             renderLinkHistory();
@@ -488,15 +510,22 @@
                 });
             });
             loadLocalHistory().forEach(s => {
-                const school = (s.school || '').trim();
-                if (!school) return;
+                const typed = (s.school || '').trim();
+                if (!typed) return;
+                const reg = findRegisteredSchool(typed);
+                const school = (reg && reg.school) || typed;
                 const prev = map.get(school) || {};
+                const shortPath = s.shortPath || prev.shortPath || (reg && reg.shortPath) || SCHOOL_SHORT_PATHS[school] || null;
+                const shortUrl = shortPath
+                    ? new URL(shortPath, portalBaseUrl()).toString()
+                    : (s.shortUrl || prev.shortUrl || null);
                 map.set(school, {
                     ...prev,
                     ...s,
                     school,
-                    shortPath: s.shortPath || prev.shortPath || SCHOOL_SHORT_PATHS[school] || null,
-                    shortUrl: s.shortUrl || prev.shortUrl || null,
+                    program: s.program || prev.program || (reg && reg.program) || '국외현장체험학습',
+                    shortPath,
+                    shortUrl,
                     source: 'local'
                 });
             });
@@ -598,13 +627,19 @@
         }
 
         function generateLink() {
-            const school = document.getElementById('admin-school-name').value || '남평초등학교';
-            const program = document.getElementById('admin-program-name').value || '국외현장체험학습';
-            const pwd = document.getElementById('admin-password').value;
-            const { longUrl, shortUrl, shortPath } = buildSchoolUrls(school, program, pwd);
+            const typedSchool = document.getElementById('admin-school-name').value || '남평초등학교';
+            const reg = findRegisteredSchool(typedSchool);
+            const program = document.getElementById('admin-program-name').value || (reg && reg.program) || '국외현장체험학습';
+            const pwd = document.getElementById('admin-password').value || (reg && reg.pwd) || '';
+            const { longUrl, shortUrl, shortPath, canonicalSchool } = buildSchoolUrls(typedSchool, program, pwd);
+
+            if (canonicalSchool && canonicalSchool !== typedSchool.trim()) {
+                document.getElementById('admin-school-name').value = canonicalSchool;
+                updatePreviewText();
+            }
 
             upsertLinkHistory({
-                school: school.trim(),
+                school: canonicalSchool,
                 program: program.trim(),
                 pwd: (pwd || '').trim(),
                 longUrl,
@@ -613,7 +648,7 @@
                 updated: new Date().toISOString().slice(0, 10)
             });
 
-            finishCopy(shortUrl || longUrl, school, !!shortUrl);
+            finishCopy(shortUrl || longUrl, canonicalSchool, !!shortUrl);
         }
 
         function finishCopy(text, school, isShort) {

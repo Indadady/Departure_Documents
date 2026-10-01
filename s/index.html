@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>출발전 제출서류 | 투어메이커</title>
+    <meta name="robots" content="noindex">
+    <style>
+        body { font-family: 'Malgun Gothic', sans-serif; display:flex; align-items:center; justify-content:center; min-height:100vh; margin:0; background:#eef2f6; color:#334155; }
+        .box { text-align:center; padding:2rem; }
+        a { color:#004098; font-weight:bold; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <p id="msg">출발전 제출서류로 이동 중…</p>
+        <p id="fallback"></p>
+    </div>
+    <script>
+        (function () {
+            var q = new URLSearchParams(location.search);
+            var school = (q.get('n') || '').trim();
+            var program = (q.get('p') || '').trim();
+            var pwd = (q.get('d') || '').trim();
+
+            function destination(schoolName, programName, password) {
+                var url = new URL('../', location.href);
+                url.searchParams.set('school', schoolName);
+                url.searchParams.set('program', programName || '국외현장체험학습');
+                if (password) url.searchParams.set('pwd', btoa(password));
+                return url.toString();
+            }
+
+            function go(schoolName, programName, password) {
+                var href = destination(schoolName, programName, password);
+                var link = document.getElementById('fallback');
+                if (link) link.innerHTML = '<a href="' + href.replace(/"/g, '&quot;') + '">자동 이동되지 않으면 여기를 눌러주세요</a>';
+                location.replace(href);
+            }
+
+            if (!school) {
+                document.getElementById('msg').textContent = '학교 정보가 없는 링크입니다.';
+                return;
+            }
+
+            if (program && pwd) {
+                go(school, program, pwd);
+                return;
+            }
+
+            fetch('../schools.json?t=' + Date.now())
+                .then(function (res) { return res.json(); })
+                .then(function (data) {
+                    var list = (data && data.schools) || [];
+                    var found = null;
+                    for (var i = 0; i < list.length; i++) {
+                        if ((list[i].school || '').trim() === school) { found = list[i]; break; }
+                    }
+                    go(
+                        school,
+                        program || (found && found.program) || '',
+                        pwd || (found && found.pwd) || ''
+                    );
+                })
+                .catch(function () {
+                    go(school, program, pwd);
+                });
+        })();
+    </script>
+</body>
+</html>

@@ -113,7 +113,7 @@
 
             <div class="mb-5">
                 <label class="block text-sm font-bold text-slate-700 mb-2">4. 접속 비밀번호</label>
-                <input type="text" id="admin-password" placeholder="예: 260512" class="w-full px-3 py-2 border border-blue-200 bg-blue-50 rounded-md focus:outline-none focus:border-blue-500 text-sm font-semibold tracking-wider">
+                <input type="text" id="admin-password" placeholder="예: 260512" class="w-full px-3 py-2 border border-blue-200 bg-blue-50 rounded-md focus:outline-none focus:border-blue-500 text-sm font-semibold tracking-wider" oninput="updateShortLinkPreview()">
             </div>
 
             <div class="mb-6 bg-slate-50 p-4 rounded-lg border border-slate-200">
@@ -128,8 +128,13 @@
 
             <div>
                 <button id="generateBtn" onclick="generateLink()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-3.5 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-md">
-                    <i class="ph ph-link text-lg"></i> 보안 링크 복사
+                    <i class="ph ph-link text-lg"></i> 단축 링크 복사
                 </button>
+                <div id="short-link-box" class="mt-3 bg-blue-50 border border-blue-100 rounded-lg p-3">
+                    <div class="text-[11px] font-bold text-blue-800 mb-1">복사될 단축 링크</div>
+                    <div id="short-link-preview" class="text-[12px] leading-relaxed break-all text-slate-800 font-semibold">학교명을 입력하면 단축 주소가 표시됩니다.</div>
+                    <p id="short-link-note" class="text-[11px] text-slate-500 mt-1.5 leading-relaxed"></p>
+                </div>
             </div>
 
             <div class="mt-6 pt-5 border-t border-slate-200">
@@ -361,7 +366,7 @@
             if(urlParams.get('admin') === 'true') {
                 document.getElementById('secret-admin-btn').classList.remove('hidden');
                 document.getElementById('secret-admin-btn').classList.add('flex');
-                initLinkHistory();
+                ensureSchools().then(updateShortLinkPreview);
             }
 
             // 파라미터 적용
@@ -403,6 +408,7 @@
                 const fileName = link.getAttribute('data-file');
                 link.href = `./files/${safeSchoolName}/${fileName}`;
             });
+            updateShortLinkPreview();
         }
 
         function autoGeneratePassword() {
@@ -413,6 +419,7 @@
                 const dd = dateVal.substring(8, 10);
                 document.getElementById('admin-password').value = yy + mm + dd;
             }
+            updateShortLinkPreview();
         }
 
         function checkPassword() {
@@ -681,13 +688,82 @@
             showToast('로컬 링크 기록을 모두 삭제했습니다.');
         }
 
-        function copyPlain(text) {
+        function legacyCopy(text) {
             const dummy = document.createElement('textarea');
             document.body.appendChild(dummy);
             dummy.value = text;
             dummy.select();
             document.execCommand('copy');
             document.body.removeChild(dummy);
+        }
+
+        function copyPlain(text) {
+            if (navigator.clipboard && window.isSecureContext) {
+                return navigator.clipboard.writeText(text).catch(() => legacyCopy(text));
+            }
+            legacyCopy(text);
+            return Promise.resolve();
+        }
+
+        let schoolsReady = null;
+        function ensureSchools() {
+            if (!schoolsReady) schoolsReady = initLinkHistory();
+            return schoolsReady;
+        }
+
+        function formShareState() {
+            const typedSchool = (document.getElementById('admin-school-name').value || '').trim();
+            const reg = findRegisteredSchool(typedSchool);
+            const school = ((reg && reg.school) || typedSchool).trim();
+            const formProgram = (document.getElementById('admin-program-name').value || '').trim();
+            const formPwd = (document.getElementById('admin-password').value || '').trim();
+            const program = formProgram || (reg && reg.program) || '국외현장체험학습';
+            const pwd = formPwd || (reg && reg.pwd) || '';
+            const programMatches = !formProgram || !reg || formProgram === (reg.program || '').trim();
+            const pwdMatches = !formPwd || !reg || formPwd === (reg.pwd || '').trim();
+            return { school, program, pwd, reg, typedSchool, useRegistry: !!(reg && programMatches && pwdMatches) };
+        }
+
+        function shareLinkForForm() {
+            const st = formShareState();
+            if (!st.school) return null;
+            const shortPath = (st.useRegistry && ((st.reg && st.reg.shortPath) || SCHOOL_SHORT_PATHS[st.school])) || '';
+            if (shortPath) {
+                return {
+                    url: new URL(shortPath, portalBaseUrl()).toString(),
+                    kind: 'path',
+                    path: shortPath,
+                    state: st
+                };
+            }
+            const url = new URL('s/', portalBaseUrl());
+            url.searchParams.set('n', st.school);
+            if (!st.useRegistry) {
+                if (st.program) url.searchParams.set('p', st.program);
+                if (st.pwd) url.searchParams.set('d', st.pwd);
+            }
+            return { url: url.toString(), kind: st.useRegistry ? 'name' : 'custom', path: 's/', state: st };
+        }
+
+        function updateShortLinkPreview() {
+            const box = document.getElementById('short-link-preview');
+            const note = document.getElementById('short-link-note');
+            if (!box) return;
+            const share = shareLinkForForm();
+            if (!share) {
+                box.textContent = '학교명을 입력하면 단축 주소가 표시됩니다.';
+                if (note) note.textContent = '';
+                return;
+            }
+            box.textContent = share.url;
+            if (!note) return;
+            if (share.kind === 'path') {
+                note.textContent = '등록된 단축 주소입니다. 학교 페이지로 바로 연결됩니다.';
+            } else if (share.kind === 'name') {
+                note.textContent = '학교명 단축 주소입니다. 등록된 프로그램과 비밀번호로 연결됩니다.';
+            } else {
+                note.textContent = '입력한 프로그램·비밀번호가 이 단축 주소에 반영됩니다.';
+            }
         }
 
         async function initLinkHistory() {
@@ -704,38 +780,37 @@
             renderLinkHistory();
         }
 
-        function generateLink() {
-            const typedSchool = document.getElementById('admin-school-name').value || '남평초등학교';
-            const reg = findRegisteredSchool(typedSchool);
-            const program = document.getElementById('admin-program-name').value || (reg && reg.program) || '국외현장체험학습';
-            const pwd = document.getElementById('admin-password').value || (reg && reg.pwd) || '';
-            const { longUrl, shortUrl, shortPath, canonicalSchool } = buildSchoolUrls(typedSchool, program, pwd);
-
-            if (canonicalSchool && canonicalSchool !== typedSchool.trim()) {
-                document.getElementById('admin-school-name').value = canonicalSchool;
-                updatePreviewText();
+        async function generateLink() {
+            await ensureSchools();
+            const share = shareLinkForForm();
+            if (!share || !share.state.school) {
+                showToast('학교명을 입력해 주세요.');
+                return;
             }
-
-            unhideSchool(canonicalSchool);
-
+            const st = share.state;
+            if (st.reg && st.school !== st.typedSchool) {
+                document.getElementById('admin-school-name').value = st.school;
+            }
+            const built = buildSchoolUrls(st.school, st.program, st.pwd);
+            updatePreviewText();
+            unhideSchool(st.school);
             upsertLinkHistory({
-                school: canonicalSchool,
-                program: program.trim(),
-                pwd: (pwd || '').trim(),
-                longUrl,
-                shortUrl,
-                shortPath,
+                school: st.school,
+                program: st.program,
+                pwd: st.pwd,
+                longUrl: built.longUrl,
+                shortUrl: share.url,
+                shortPath: share.kind === 'path' ? share.path : null,
                 updated: new Date().toISOString().slice(0, 10)
             });
-
-            finishCopy(shortUrl || longUrl, canonicalSchool, !!shortUrl);
+            await copyPlain(share.url);
+            showToast(`[${st.school}] 단축 링크가 복사되었습니다.`);
         }
 
         function finishCopy(text, school, isShort) {
             copyPlain(text);
             const msg = isShort ? '광고 없는 단축 링크가 복사되었습니다!' : '보안 링크가 복사되었습니다!';
             showToast(`[${school}] ${msg}`);
-            setTimeout(() => toggleSidebar(), 1200);
         }
 
         function showToast(msg) {

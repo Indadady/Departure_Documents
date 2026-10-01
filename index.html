@@ -437,7 +437,9 @@
             alert("[안전한 데이터 보존을 위한 업로드 가이드]\n\n1. 컴퓨터에 [해당 학교명] 폴더를 만듭니다.\n2. 병합된 4개의 파일(01_hotel.pdf 등)을 넣습니다.\n3. GitHub 저장소의 'files' 폴더 내부에 이 학교 폴더를 통째로 업로드하세요.\n\n※ 학교명 입력 시 이 폴더명과 동일하게 입력하셔야 서류가 열립니다.");
         }
 
-        const SCHOOL_SHORT_PATHS = {};
+        const SCHOOL_SHORT_PATHS = {
+            "함백중학교": "hambaekjung/"
+        };
         const LINK_HISTORY_KEY = 'tm_departure_link_history';
         const LINK_HIDDEN_KEY = 'tm_departure_link_hidden';
         let seededSchools = [];

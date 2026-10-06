@@ -415,21 +415,23 @@
         /** Map display school name → files/ folder name when they differ. */
         const FILES_FOLDER_ALIAS = {
             '남평초등학교': '남평초',
-            '남평초': '남평초'
+            '남평초': '남평초',
+            '북평초등학교': '북평초',
+            '북평초': '북평초'
         };
         function resolveFilesFolder(schoolName) {
             return FILES_FOLDER_ALIAS[schoolName] || schoolName;
         }
 
-        /** 남평초: 계약상 별도 인솔자 없음 → 항공·가이드 중심으로 표기 */
-        const NAMPYEONG_SCHOOLS = ['남평초', '남평초등학교'];
+        /** 남평초·북평초: 계약상 별도 인솔자 없음 → 항공·가이드 중심으로 표기 */
+        const AIR_GUIDE_SCHOOLS = ['남평초', '남평초등학교', '북평초', '북평초등학교'];
         function applyCategory04Copy(schoolName) {
             const title = document.getElementById('cat04-title');
             const headline = document.getElementById('cat04-headline');
             const desc = document.getElementById('cat04-desc');
             if (!title || !headline || !desc) return;
-            const isNampyeong = NAMPYEONG_SCHOOLS.some(n => schoolName === n || schoolName.startsWith(n));
-            if (isNampyeong) {
+            const isAirGuide = AIR_GUIDE_SCHOOLS.some(n => schoolName === n || schoolName.startsWith(n));
+            if (isAirGuide) {
                 title.textContent = '04. 기타 (항공·가이드 관련 서류)';
                 headline.textContent = '항공권 및 가이드·여행 관련 기타 서류';
                 desc.textContent = '전자항공권(E-TKT), 가이드 자격 등 행사 관련 기타 서류';
@@ -475,7 +477,8 @@
 
         const SCHOOL_SHORT_PATHS = {
             "함백중학교": "hambaekjung/",
-            "남평초": "nampyeongcho/"
+            "남평초": "nampyeongcho/",
+            "북평초": "bukpyeongcho/"
         };
         const LINK_HISTORY_KEY = 'tm_departure_link_history';
         const LINK_HIDDEN_KEY = 'tm_departure_link_hidden';

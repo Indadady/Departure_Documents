@@ -314,15 +314,15 @@
             <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden break-inside-avoid">
                 <div class="bg-slate-50/80 px-6 py-4 border-b border-slate-200 flex items-center justify-between">
                     <h3 class="font-bold text-blue-800 flex items-center gap-2 text-base">
-                        <i class="ph ph-shield-check text-blue-500 text-xl"></i> 04. 기타 (안전 및 보험 서류 일체)
+                        <i class="ph ph-shield-check text-blue-500 text-xl"></i> <span id="cat04-title">04. 기타 (안전 및 보험 서류 일체)</span>
                     </h3>
                 </div>
                 <div class="px-6 py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 table-row-hover transition-colors">
                     <div class="flex items-start sm:items-center gap-4">
                         <i class="ph ph-file-pdf text-rose-500 text-3xl"></i>
                         <div>
-                            <p class="text-base font-bold text-slate-800 mb-1">인솔자(안전요원) 신원확인 및 여행자보험 서류 일체</p>
-                            <p class="text-sm text-slate-500">안전요원 성범죄 등 전력 조회 동의서 및 단체 여행자보험 가입증명원</p>
+                            <p id="cat04-headline" class="text-base font-bold text-slate-800 mb-1">인솔자(안전요원) 신원확인 및 여행자보험 서류 일체</p>
+                            <p id="cat04-desc" class="text-sm text-slate-500">안전요원 성범죄 등 전력 조회 동의서 및 단체 여행자보험 가입증명원</p>
                         </div>
                     </div>
                     <div class="shrink-0">
@@ -408,7 +408,27 @@
                 const fileName = link.getAttribute('data-file');
                 link.href = `./files/${safeSchoolName}/${fileName}`;
             });
+            applyCategory04Copy(safeSchoolName);
             updateShortLinkPreview();
+        }
+
+        /** Schools without contracted chaperone (인솔자) — hide that wording on category 04. */
+        const NO_CHAPERONE_SCHOOLS = ['남평초', '남평초등학교'];
+        function applyCategory04Copy(schoolName) {
+            const title = document.getElementById('cat04-title');
+            const headline = document.getElementById('cat04-headline');
+            const desc = document.getElementById('cat04-desc');
+            if (!title || !headline || !desc) return;
+            const noChaperone = NO_CHAPERONE_SCHOOLS.some(n => schoolName === n || schoolName.startsWith(n));
+            if (noChaperone) {
+                title.textContent = '04. 기타 (항공 및 관련 서류)';
+                headline.textContent = '항공권 등 기타 제출 서류';
+                desc.textContent = '전자항공권(E-TKT) 등 행사 관련 기타 서류';
+            } else {
+                title.textContent = '04. 기타 (안전 및 보험 서류 일체)';
+                headline.textContent = '인솔자(안전요원) 신원확인 및 여행자보험 서류 일체';
+                desc.textContent = '안전요원 성범죄 등 전력 조회 동의서 및 단체 여행자보험 가입증명원';
+            }
         }
 
         function autoGeneratePassword() {

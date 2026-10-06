@@ -403,13 +403,22 @@
             document.querySelectorAll('.school-name-display').forEach(el => el.innerText = inputSchool);
             document.querySelectorAll('.program-name-display').forEach(el => el.innerText = inputProgram);
             
-            const safeSchoolName = inputSchool.trim();
+            const safeSchoolName = resolveFilesFolder(inputSchool.trim());
             document.querySelectorAll('.dynamic-doc-link').forEach(link => {
                 const fileName = link.getAttribute('data-file');
                 link.href = `./files/${safeSchoolName}/${fileName}`;
             });
-            applyCategory04Copy(safeSchoolName);
+            applyCategory04Copy(inputSchool.trim());
             updateShortLinkPreview();
+        }
+
+        /** Map display school name → files/ folder name when they differ. */
+        const FILES_FOLDER_ALIAS = {
+            '남평초등학교': '남평초',
+            '남평초': '남평초'
+        };
+        function resolveFilesFolder(schoolName) {
+            return FILES_FOLDER_ALIAS[schoolName] || schoolName;
         }
 
         /** Schools without contracted chaperone (인솔자) — hide that wording on category 04. */

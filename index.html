@@ -405,7 +405,7 @@
             
             const safeSchoolName = resolveFilesFolder(inputSchool.trim());
             // Bust CDN/browser cache when PDFs are replaced on GitHub Pages.
-            const docCacheVer = '20261008b';
+            const docCacheVer = '20261008c';
             document.querySelectorAll('.dynamic-doc-link').forEach(link => {
                 const fileName = link.getAttribute('data-file');
                 link.href = `./files/${safeSchoolName}/${fileName}?v=${docCacheVer}`;

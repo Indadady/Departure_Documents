@@ -1,6 +1,14 @@
 {
   "schools": [
     {
+      "school": "함백고등학교",
+      "program": "함백고등학교 1학년 문화체험학습",
+      "pwd": "261028",
+      "shortPath": "hambaekgo/",
+      "updated": "2026-10-14",
+      "note": "함백고등학교 1학년 문화체험학습 · 출발일자 261028 · 단축링크 hambaekgo/"
+    },
+    {
       "school": "함백중학교",
       "program": "2026년 함백중학교 국내역사문화탐방 체험학습",
       "pwd": "261014",
@@ -52,7 +60,7 @@
       "school": "문곡중학교",
       "program": "국외현장체험학습",
       "pwd": "",
-      "shortPath": "",
+      "shortPath": "mungokjung/",
       "updated": "2026-07-30",
       "note": "files/문곡중학교 등록됨 · 비밀번호는 링크 생성 시 저장"
     },
@@ -60,7 +68,7 @@
       "school": "사북고등학교",
       "program": "국외현장체험학습",
       "pwd": "",
-      "shortPath": "",
+      "shortPath": "sabukgo/",
       "updated": "2026-07-30",
       "note": "files/사북고등학교 등록됨 · 비밀번호는 링크 생성 시 저장"
     }

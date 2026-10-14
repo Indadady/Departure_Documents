@@ -419,7 +419,14 @@
             '남평초등학교': '남평초',
             '남평초': '남평초',
             '북평초등학교': '북평초',
-            '북평초': '북평초'
+            '북평초': '북평초',
+            '함백고': '함백고등학교',
+            '함백중': '함백중학교',
+            '옥동중': '옥동중학교',
+            '고한중': '고한중학교',
+            '문곡중': '문곡중학교',
+            '사북고': '사북고등학교',
+            '황지정보산업고': '황지정보산업고등학교'
         };
         function resolveFilesFolder(schoolName) {
             return FILES_FOLDER_ALIAS[schoolName] || schoolName;
@@ -478,9 +485,24 @@
         }
 
         const SCHOOL_SHORT_PATHS = {
+            "함백고등학교": "hambaekgo/",
+            "함백고": "hambaekgo/",
             "함백중학교": "hambaekjung/",
+            "함백중": "hambaekjung/",
+            "옥동중학교": "okdongjung/",
+            "옥동중": "okdongjung/",
+            "고한중학교": "gohanjung/",
+            "고한중": "gohanjung/",
+            "황지정보산업고등학교": "hwangji/",
+            "황지정보산업고": "hwangji/",
             "남평초": "nampyeongcho/",
-            "북평초": "bukpyeongcho/"
+            "남평초등학교": "nampyeongcho/",
+            "북평초": "bukpyeongcho/",
+            "북평초등학교": "bukpyeongcho/",
+            "문곡중학교": "mungokjung/",
+            "문곡중": "mungokjung/",
+            "사북고등학교": "sabukgo/",
+            "사북고": "sabukgo/"
         };
         const LINK_HISTORY_KEY = 'tm_departure_link_history';
         const LINK_HIDDEN_KEY = 'tm_departure_link_hidden';
@@ -490,12 +512,24 @@
             return window.location.href.split('?')[0].replace(/index\.html$/i, '');
         }
 
-        /** Match typed school name to schools.json (e.g. 고한중학 → 고한중학교). */
+        function normalizeSchoolKey(str) {
+            return (str || '').trim().replace(/(초등학교|중학교|고등학교|학교)$/, m => {
+                if (m === '초등학교') return '초';
+                if (m === '중학교') return '중';
+                if (m === '고등학교') return '고';
+                return '';
+            });
+        }
+
+        /** Match typed school name to schools.json (e.g. 고한중학 → 고한중학교, 함백고 → 함백고등학교). */
         function findRegisteredSchool(input) {
             const q = (input || '').trim();
             if (!q) return null;
             const exact = seededSchools.find(s => (s.school || '').trim() === q);
             if (exact) return exact;
+            const qNorm = normalizeSchoolKey(q);
+            const normMatch = seededSchools.find(s => normalizeSchoolKey(s.school) === qNorm);
+            if (normMatch) return normMatch;
             const qBase = q.replace(/학교$/, '');
             return seededSchools.find(s => {
                 const name = (s.school || '').trim();
@@ -564,9 +598,13 @@
             });
             Object.keys(SCHOOL_SHORT_PATHS).forEach(school => {
                 if (map.has(school)) return;
-                const urls = buildSchoolUrls(school, '국외현장체험학습', '');
-                map.set(school, {
-                    school,
+                const reg = findRegisteredSchool(school);
+                if (reg && map.has((reg.school || '').trim())) return;
+                const canonical = FILES_FOLDER_ALIAS[school] || school;
+                if (map.has(canonical)) return;
+                const urls = buildSchoolUrls(canonical, '국외현장체험학습', '');
+                map.set(canonical, {
+                    school: canonical,
                     program: '국외현장체험학습',
                     pwd: '',
                     shortPath: SCHOOL_SHORT_PATHS[school],
@@ -762,7 +800,7 @@
         function shareLinkForForm() {
             const st = formShareState();
             if (!st.school) return null;
-            const shortPath = (st.useRegistry && ((st.reg && st.reg.shortPath) || SCHOOL_SHORT_PATHS[st.school])) || '';
+            const shortPath = (st.reg && st.reg.shortPath) || SCHOOL_SHORT_PATHS[st.school] || SCHOOL_SHORT_PATHS[st.typedSchool] || '';
             if (shortPath) {
                 return {
                     url: new URL(shortPath, portalBaseUrl()).toString(),

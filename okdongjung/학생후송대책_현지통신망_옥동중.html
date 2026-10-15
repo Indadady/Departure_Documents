@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[옥동중학교] 국외현장체험학습 안전관리 및 비상대응망 구축 계획서</title>
+    <meta property="og:title" content="[옥동중학교] 안전관리 및 비상대응망 구축 계획서">
+    <meta property="og:description" content="학생 후송 대책 및 현지 통신망 구축 현황 보고서 (제출용)">
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Pretendard', 'Malgun Gothic', sans-serif;
+            background-color: #f3f4f6;
+            color: #1f2937;
+            margin: 0;
+            padding: 0;
+        }
+        .no-print {
+            max-width: 56rem;
+            margin: 1rem auto 0;
+            padding: 1rem;
+            background: #eff6ff;
+            border-left: 4px solid #3b82f6;
+            color: #1d4ed8;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 2px rgba(0,0,0,.05);
+        }
+        .no-print button {
+            background: #2563eb;
+            color: #fff;
+            border: 0;
+            padding: .5rem 1rem;
+            border-radius: .25rem;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .a4-container {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 18mm 16mm;
+            margin: 10mm auto;
+            background: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        h1 { font-size: 1.35rem; font-weight: 800; margin: 0; letter-spacing: -0.02em; }
+        .meta { font-size: 0.8rem; color: #6b7280; margin-top: 0.35rem; }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 2px solid #1f2937;
+            padding-bottom: 0.9rem;
+            margin-bottom: 1.25rem;
+        }
+        .header img { height: 2.4rem; }
+        h2 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            background: #f3f4f6;
+            padding: 0.45rem 0.6rem;
+            margin: 0 0 0.85rem;
+            border-left: 4px solid #1f2937;
+        }
+        h3 { font-size: 0.95rem; font-weight: 700; color: #374151; margin: 0 0 0.5rem; }
+        p.lead { font-size: 0.875rem; margin: 0 0 0.75rem; line-height: 1.55; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+        th {
+            background: #f8fafc;
+            font-weight: 600;
+            text-align: center;
+            border: 1px solid #d1d5db;
+            padding: 0.65rem;
+            font-size: 0.82rem;
+        }
+        td {
+            border: 1px solid #d1d5db;
+            padding: 0.65rem;
+            font-size: 0.82rem;
+            text-align: center;
+            vertical-align: middle;
+        }
+        td.left { text-align: left; }
+        .muted { font-size: 0.72rem; color: #6b7280; }
+        .steps {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            padding: 0.9rem;
+            font-size: 0.85rem;
+        }
+        .step { display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.45rem; }
+        .step:last-child { margin-bottom: 0; }
+        .badge {
+            color: #fff;
+            padding: 0.15rem 0.45rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            border-radius: 0.25rem;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .b1 { background: #ef4444; }
+        .b2 { background: #f97316; }
+        .b3 { background: #eab308; color: #1f2937; }
+        .b4 { background: #22c55e; }
+        .page-break { page-break-before: always; }
+        .footer {
+            margin-top: 2.5rem;
+            padding-top: 1.2rem;
+            border-top: 2px solid #1f2937;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #4b5563;
+            position: relative;
+            padding-bottom: 3.2rem;
+        }
+        .company { font-weight: 800; color: #111827; font-size: 1.1rem; margin: 1rem 0; }
+        .esg {
+            margin-top: 1.5rem;
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #166534;
+            display: inline-block;
+            text-align: left;
+            padding: 0.7rem 0.9rem;
+            border-radius: 0.35rem;
+            font-size: 0.75rem;
+            line-height: 1.5;
+        }
+        .powered {
+            position: absolute;
+            left: 0; right: 0; bottom: 0;
+            padding: 0.4rem;
+        }
+        .powered a {
+            display: inline-block;
+            background: #f3f4f6;
+            color: #4b5563;
+            text-decoration: none;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.4rem 0.9rem;
+            border-radius: 0.25rem;
+        }
+        .row-guide { background: #f9fafb; font-weight: 700; }
+        .row-consul { background: #eff6ff; font-weight: 700; }
+        @media print {
+            body { background: white; }
+            .a4-container { margin: 0; padding: 14mm 12mm; width: 100%; box-shadow: none; }
+            .no-print { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="no-print">
+        <div>
+            <p style="margin:0;font-weight:700;">행정실 제출용 인쇄 안내</p>
+            <p style="margin:0.2rem 0 0;font-size:0.875rem;">단축키(Ctrl+P)를 눌러 'PDF로 저장' 또는 바로 인쇄하여 행정실에 제출하십시오.</p>
+        </div>
+        <button onclick="window.print()">PDF 다운로드 / 인쇄</button>
+    </div>
+
+    <div class="a4-container">
+        <div class="header">
+            <div>
+                <h1>옥동중학교 국외현장체험학습 안전관리 계획서</h1>
+                <p class="meta">문서번호: TM-2026-1020-OSK | 시행일자: 2026. 10. 15 | 행사기간: 2026. 10. 20 – 10. 23 (오사카)</p>
+            </div>
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHfgIX70O5k6Anuo0UgALIdaG9jSga9auHu3uyz0uEirylGPAJnjN_qQbvEGMUvPqUQf_g9FMNUHRxlDcUBf4vZ3Mpy4TnA9WxbmzWYK11gt2zuy_Irl4wctNFjcjLyPo0GPXV792o_J7L9guRMuDfeC1gy7USwywjYbECZgzcsHybuGRRAXAnO1eNmP8/s320/logo.png" alt="TourMaker Logo">
+        </div>
+
+        <div>
+            <h2>1. 비상시 학생 후송 및 의료 지원 대책</h2>
+            <p class="lead">행사 기간 중 응급 환자 발생 시, 투어메이커의 현지 네트워크 및 [T-safe24] 시스템을 통해 가장 인접한 지정 병원으로 신속히 후송하며, 스루가이드와 학교 측 인솔 교사가 동행하여 전담 케어합니다.</p>
+
+            <h3>■ 오사카 현지 거점 응급 병원 (외국인 진료 가능 기관)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width:25%">병원명</th>
+                        <th style="width:25%">전화번호</th>
+                        <th style="width:25%">소재지</th>
+                        <th style="width:25%">담당 / 비고</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>오사카 적십자 병원</strong><br><span class="muted">(Osaka Red Cross Hospital)</span></td>
+                        <td>+81-6-6774-5111</td>
+                        <td>오사카시 텐노지구</td>
+                        <td>응급실 24시간<br>(외국인 전담 통역)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>오사카 대학 의학부 부속 병원</strong><br><span class="muted">(Osaka Univ. Hospital)</span></td>
+                        <td>+81-6-6879-5111</td>
+                        <td>오사카부 스이타시</td>
+                        <td>중증 응급 대응<br>(관서지역 최대규모)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>오사카 경찰 병원</strong><br><span class="muted">(Osaka Police Hospital)</span></td>
+                        <td>+81-6-6771-6051</td>
+                        <td>오사카시 텐노지구</td>
+                        <td>외상 및 응급 전문</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>■ 단계별 학생 후송 프로세스 (T-safe24 연동)</h3>
+            <div class="steps">
+                <div class="step">
+                    <span class="badge b1">1단계</span>
+                    <span><strong>상황 발생 및 인지:</strong> 증상 파악 및 인솔교사/스루가이드 즉시 보고 (T-safe24 위치 전송)</span>
+                </div>
+                <div class="step">
+                    <span class="badge b2">2단계</span>
+                    <span><strong>초기 대응 및 후송:</strong> 경증(인근 약국/의원) / 중증(위 거점 병원 즉시 후송, 전용 차량 대기)</span>
+                </div>
+                <div class="step">
+                    <span class="badge b3">3단계</span>
+                    <span><strong>현지 진료 및 소통:</strong> 투어메이커 본사 상황실 보고, 스루가이드 진료 동행, 학부모 실시간 상황 공유</span>
+                </div>
+                <div class="step">
+                    <span class="badge b4">4단계</span>
+                    <span><strong>사후 처리:</strong> 진단서/영수증 징구 (여행자보험 청구용), 귀국 시 학교/학부모 인계</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-break"></div>
+
+        <div>
+            <h2>2. 현지 통신망 및 24시간 핫라인 구축 현황</h2>
+            <p class="lead">해외(일본) 현지에서 발생할 수 있는 통신 단절 리스크를 방지하고자, 다중(Multi-layer) 통신망을 구축하여 학교(행정실/관리자)-인솔교사-학생 간의 24시간 연락 체계를 유지합니다.</p>
+
+            <h3>■ 다중 통신망 구축 내역</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width:20%">구분</th>
+                        <th style="width:40%">통신망 수단</th>
+                        <th style="width:40%">운영 목적 및 비고</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Main 통신망</strong></td>
+                        <td class="left">인솔자 및 스텝 전원 자동 로밍 완료</td>
+                        <td class="left">이동 중 상시 연락 및 업무 보고용</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sub 통신망<br>(비상용)</strong></td>
+                        <td class="left">스루가이드 일본/한국 로컬 연락처 상시 가동</td>
+                        <td class="left">국내 통신사 로밍 장애 발생 시 대체 수단</td>
+                    </tr>
+                    <tr>
+                        <td><strong>시스템 통신망</strong></td>
+                        <td class="left">투어메이커 T-safe24 스마트 가이드북 연동</td>
+                        <td class="left">GPS 위치 기반 실시간 채팅 및 비상 호출 버튼</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>■ 비상 연락망 (Emergency Hotline)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width:25%">기관명 / 직책</th>
+                        <th style="width:25%">담당자 성명</th>
+                        <th style="width:25%">연락처 (일본/한국)</th>
+                        <th style="width:25%">역할</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="row-guide">투어메이커 총괄</td>
+                        <td>이재명 대표</td>
+                        <td>010-9443-7881</td>
+                        <td>국내외 상황 총괄 컨트롤 타워</td>
+                    </tr>
+                    <tr>
+                        <td class="row-guide">스루가이드</td>
+                        <td>박지용</td>
+                        <td>010-2074-0785<br>070-2674-0785</td>
+                        <td>청주공항부터 전일정 밀착 동행 및 1차 대응</td>
+                    </tr>
+                    <tr>
+                        <td class="row-consul">대한민국 총영사관</td>
+                        <td>주오사카 대한민국 총영사관</td>
+                        <td>+81-6-4256-2345<br>+81-90-5676-5340(야간)</td>
+                        <td>여권 분실 및 중대 사고 발생 시 영사 조력</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="footer">
+            <p>위와 같이 철저한 안전 대책과 통신망 구축을 완료하여 행사가 차질 없이 진행됨을 보고합니다.</p>
+            <p class="company">수행사 : 투어메이커 (TOURMAKER)</p>
+            <div class="esg">
+                <p style="margin:0 0 0.25rem;font-weight:700;">ESG 실천 대시보드</p>
+                <p style="margin:0;">본 행사는 스마트 가이드북 도입을 통해 참여 인원 비례 약 <strong style="color:#16a34a;">6</strong>그루의 나무를 심는 효과를 거두었으며,</p>
+                <p style="margin:0;">디지털 전환(DX)을 통한 공공부문 에너지 절약(종이 절감 8장, 탄소 배출 감소 38g, 물 절약 75L - 1인당) 실천의 모범 사례입니다.</p>
+            </div>
+            <div class="powered">
+                <a href="https://tourmaker.kr" target="_blank">[System Powered by TOURMAKER] 본 문서는 투어메이커의 트래블 테크 기술 제휴로 제작되었습니다.</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

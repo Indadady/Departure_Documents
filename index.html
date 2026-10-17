@@ -405,7 +405,7 @@
             
             const safeSchoolName = resolveFilesFolder(inputSchool.trim());
             // Bust CDN/browser cache when PDFs are replaced on GitHub Pages.
-            const docCacheVer = '20261015b';
+            const docCacheVer = '20261017a';
             document.querySelectorAll('.dynamic-doc-link').forEach(link => {
                 const fileName = link.getAttribute('data-file');
                 link.href = `./files/${safeSchoolName}/${fileName}?v=${docCacheVer}`;
@@ -441,9 +441,9 @@
             if (!title || !headline || !desc) return;
             const isAirGuide = AIR_GUIDE_SCHOOLS.some(n => schoolName === n || schoolName.startsWith(n));
             if (isAirGuide) {
-                title.textContent = '04. 기타 (항공·가이드 관련 서류)';
-                headline.textContent = '항공권 및 가이드·여행 관련 기타 서류';
-                desc.textContent = '전자항공권(E-TKT), 가이드 자격 등 행사 관련 기타 서류';
+                title.textContent = '04. 기타 (항공·가이드·보험 관련 서류)';
+                headline.textContent = '항공권, 가이드 및 여행자보험 관련 서류 일체';
+                desc.textContent = '전자항공권(E-TKT), 현지가이드 자격·동의서, 해외여행자보험 증권 등';
             } else {
                 title.textContent = '04. 기타 (가이드·안전·보험 서류 일체)';
                 headline.textContent = '가이드 자격 및 여행자보험 서류 일체';

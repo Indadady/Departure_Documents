@@ -586,7 +586,59 @@
             }) || null;
         }
 
-        function buildSchoolUrls(school, program, pwd) {
+        /** 한글 학교명 → ASCII 단축 슬러그 (예: 통리초등학교 → tongricho) */
+        function romanizeHangul(text) {
+            const LEAD = ['g','kk','n','d','tt','r','m','b','pp','s','ss','','j','jj','ch','k','t','p','h'];
+            const VOWEL = ['a','ae','ya','yae','eo','e','yeo','ye','o','wa','wae','oe','yo','u','wo','we','wi','yu','eu','ui','i'];
+            const TAIL = ['','g','kk','gs','n','nj','nh','d','l','lg','lm','lb','ls','lt','lp','lh','m','b','bs','s','ss','ng','j','ch','k','t','p','h'];
+            let out = '';
+            for (const ch of String(text || '')) {
+                const code = ch.codePointAt(0);
+                if (code >= 0xac00 && code <= 0xd7a3) {
+                    const syl = code - 0xac00;
+                    const l = Math.floor(syl / 588);
+                    const v = Math.floor((syl % 588) / 28);
+                    const t = syl % 28;
+                    out += LEAD[l] + VOWEL[v] + TAIL[t];
+                } else if (/[A-Za-z0-9]/.test(ch)) {
+                    out += ch.toLowerCase();
+                }
+            }
+            return out;
+        }
+        function slugifySchoolName(schoolName) {
+            let name = (schoolName || '').trim();
+            let suffix = '';
+            if (/초등학교$/.test(name) || /초$/.test(name)) {
+                suffix = 'cho';
+                name = name.replace(/초등학교$/, '').replace(/초$/, '');
+            } else if (/고등학교$/.test(name) || /고$/.test(name)) {
+                suffix = 'go';
+                name = name.replace(/고등학교$/, '').replace(/고$/, '');
+            } else if (/중학교$/.test(name) || /중$/.test(name)) {
+                suffix = 'jung';
+                name = name.replace(/중학교$/, '').replace(/중$/, '');
+            } else {
+                name = name.replace(/학교$/, '');
+            }
+            let slug = (romanizeHangul(name) + suffix).toLowerCase().replace(/[^a-z0-9]+/g, '');
+            if (!slug) slug = 'school' + String(Date.now()).slice(-4);
+            if (slug.length > 28) slug = slug.slice(0, 28);
+            return slug + '/';
+        }
+        function shortPathFromHistory(schoolName) {
+            const hit = loadLocalHistory().find(x => x.school === schoolName && x.shortPath);
+            return hit ? hit.shortPath : null;
+        }
+        function resolveShortPath(schoolName, typedName) {
+            const reg = findRegisteredSchool(schoolName) || findRegisteredSchool(typedName);
+            return (reg && reg.shortPath)
+                || SCHOOL_SHORT_PATHS[schoolName]
+                || SCHOOL_SHORT_PATHS[typedName]
+                || shortPathFromHistory(schoolName)
+                || slugifySchoolName(schoolName || typedName);
+        }
+        function buildSchoolUrls(school, program, pwd, typedName) {
             const reg = findRegisteredSchool(school);
             const canonicalSchool = ((reg && reg.school) || school || '').trim();
             const url = new URL(portalBaseUrl());
@@ -594,9 +646,49 @@
             url.searchParams.set('program', (program || (reg && reg.program) || '국외현장체험학습').trim());
             if (pwd && String(pwd).trim()) url.searchParams.set('pwd', btoa(String(pwd).trim()));
             const longUrl = url.toString();
-            const shortPath = (reg && reg.shortPath) || SCHOOL_SHORT_PATHS[canonicalSchool] || SCHOOL_SHORT_PATHS[(school || '').trim()] || null;
-            const shortUrl = shortPath ? new URL(shortPath, portalBaseUrl()).toString() : null;
+            const shortPath = resolveShortPath(canonicalSchool, typedName || school);
+            const shortUrl = new URL(shortPath, portalBaseUrl()).toString();
             return { longUrl, shortUrl, shortPath, canonicalSchool };
+        }
+        function buildShortRedirectHtml(school, program, pwd) {
+            const qSchool = encodeURIComponent(school);
+            const qProgram = encodeURIComponent(program || '국외현장체험학습');
+            const qPwd = pwd ? btoa(String(pwd).trim()) : '';
+            const dest = qPwd
+                ? `../?school=${qSchool}&program=${qProgram}&pwd=${qPwd}`
+                : `../?school=${qSchool}&program=${qProgram}`;
+            return `<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${school} · 출발전 제출서류 | 투어메이커</title>
+    <meta property="og:title" content="${school} 출발전 제출서류 | 투어메이커">
+    <meta property="og:description" content="${program || ''} · 사전 제출 구비서류">
+    <meta http-equiv="refresh" content="0;url=${dest}">
+    <script>location.replace('${dest}');</script>
+    <style>body{font-family:'Malgun Gothic',sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;background:#eef2f6;color:#334155}.box{text-align:center;padding:2rem}a{color:#004098;font-weight:bold}</style>
+</head>
+<body>
+    <div class="box">
+        <p>${school} 출발전 제출서류로 이동 중…</p>
+        <p><a href="${dest}">자동 이동되지 않으면 여기를 눌러주세요</a></p>
+    </div>
+</body>
+</html>
+`;
+        }
+        function downloadShortRedirectFile(shortPath, school, program, pwd) {
+            const slug = String(shortPath || '').replace(/\/$/, '') || 'school';
+            const html = buildShortRedirectHtml(school, program, pwd);
+            const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `${slug}_index.html`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            setTimeout(() => URL.revokeObjectURL(a.href), 1000);
         }
 
         function loadLocalHistory() {
@@ -847,22 +939,17 @@
         function shareLinkForForm() {
             const st = formShareState();
             if (!st.school) return null;
-            const shortPath = (st.reg && st.reg.shortPath) || SCHOOL_SHORT_PATHS[st.school] || SCHOOL_SHORT_PATHS[st.typedSchool] || '';
-            if (shortPath) {
-                return {
-                    url: new URL(shortPath, portalBaseUrl()).toString(),
-                    kind: 'path',
-                    path: shortPath,
-                    state: st
-                };
-            }
-            const url = new URL('s/', portalBaseUrl());
-            url.searchParams.set('n', st.school);
-            if (!st.useRegistry) {
-                if (st.program) url.searchParams.set('p', st.program);
-                if (st.pwd) url.searchParams.set('d', st.pwd);
-            }
-            return { url: url.toString(), kind: st.useRegistry ? 'name' : 'custom', path: 's/', state: st };
+            const shortPath = resolveShortPath(st.school, st.typedSchool);
+            const known = !!(st.reg && st.reg.shortPath)
+                || !!SCHOOL_SHORT_PATHS[st.school]
+                || !!SCHOOL_SHORT_PATHS[st.typedSchool];
+            return {
+                url: new URL(shortPath, portalBaseUrl()).toString(),
+                kind: 'path',
+                path: shortPath,
+                known,
+                state: st
+            };
         }
 
         function updateShortLinkPreview() {
@@ -877,12 +964,10 @@
             }
             box.textContent = share.url;
             if (!note) return;
-            if (share.kind === 'path') {
-                note.textContent = '등록된 단축 주소입니다. 학교 페이지로 바로 연결됩니다.';
-            } else if (share.kind === 'name') {
-                note.textContent = '학교명 단축 주소입니다. 등록된 프로그램과 비밀번호로 연결됩니다.';
+            if (share.known) {
+                note.textContent = '등록된 단축 주소입니다. 복사하면 짧은 ASCII 링크로 저장됩니다.';
             } else {
-                note.textContent = '입력한 프로그램·비밀번호가 이 단축 주소에 반영됩니다.';
+                note.textContent = '새 학교용 단축 주소(자동 생성)입니다. 복사 시 연결용 index.html도 함께 다운로드됩니다.';
             }
         }
 
@@ -911,7 +996,10 @@
             if (st.reg && st.school !== st.typedSchool) {
                 document.getElementById('admin-school-name').value = st.school;
             }
-            const built = buildSchoolUrls(st.school, st.program, st.pwd);
+            const built = buildSchoolUrls(st.school, st.program, st.pwd, st.typedSchool);
+            const shortPath = built.shortPath || share.path;
+            SCHOOL_SHORT_PATHS[st.school] = shortPath;
+            if (st.typedSchool) SCHOOL_SHORT_PATHS[st.typedSchool] = shortPath;
             updatePreviewText();
             unhideSchool(st.school);
             upsertLinkHistory({
@@ -919,12 +1007,17 @@
                 program: st.program,
                 pwd: st.pwd,
                 longUrl: built.longUrl,
-                shortUrl: share.url,
-                shortPath: share.kind === 'path' ? share.path : null,
+                shortUrl: built.shortUrl,
+                shortPath,
                 updated: new Date().toISOString().slice(0, 10)
             });
-            await copyPlain(share.url);
-            showToast(`[${st.school}] 단축 링크가 복사되었습니다.`);
+            await copyPlain(built.shortUrl);
+            if (!share.known) {
+                downloadShortRedirectFile(shortPath, st.school, st.program, st.pwd);
+                showToast(`[${st.school}] 단축 링크 복사 · ${shortPath}index.html 저장 후 업로드`);
+            } else {
+                showToast(`[${st.school}] 단축 링크가 복사되었습니다.`);
+            }
         }
 
         function finishCopy(text, school, isShort) {

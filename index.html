@@ -655,28 +655,33 @@
             const qProgram = encodeURIComponent(program || '국외현장체험학습');
             const qPwd = pwd ? btoa(String(pwd).trim()) : '';
             const dest = qPwd
-                ? `../?school=${qSchool}&program=${qProgram}&pwd=${qPwd}`
-                : `../?school=${qSchool}&program=${qProgram}`;
-            return `<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${school} · 출발전 제출서류 | 투어메이커</title>
-    <meta property="og:title" content="${school} 출발전 제출서류 | 투어메이커">
-    <meta property="og:description" content="${program || ''} · 사전 제출 구비서류">
-    <meta http-equiv="refresh" content="0;url=${dest}">
-    <script>location.replace('${dest}');</script>
-    <style>body{font-family:'Malgun Gothic',sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;background:#eef2f6;color:#334155}.box{text-align:center;padding:2rem}a{color:#004098;font-weight:bold}</style>
-</head>
-<body>
-    <div class="box">
-        <p>${school} 출발전 제출서류로 이동 중…</p>
-        <p><a href="${dest}">자동 이동되지 않으면 여기를 눌러주세요</a></p>
-    </div>
-</body>
-</html>
-`;
+                ? '../?school=' + qSchool + '&program=' + qProgram + '&pwd=' + qPwd
+                : '../?school=' + qSchool + '&program=' + qProgram;
+            const safeSchool = String(school || '').replace(/[<>&"]/g, '');
+            const safeProgram = String(program || '').replace(/[<>&"]/g, '');
+            // IMPORTANT: escape <\/script> so the portal <script> block is not closed early by the HTML parser.
+            return [
+                '<!DOCTYPE html>',
+                '<html lang="ko">',
+                '<head>',
+                '    <meta charset="UTF-8">',
+                '    <meta name="viewport" content="width=device-width, initial-scale=1.0">',
+                '    <title>' + safeSchool + ' · 출발전 제출서류 | 투어메이커</title>',
+                '    <meta property="og:title" content="' + safeSchool + ' 출발전 제출서류 | 투어메이커">',
+                '    <meta property="og:description" content="' + safeProgram + ' · 사전 제출 구비서류">',
+                '    <meta http-equiv="refresh" content="0;url=' + dest + '">',
+                '    <script>location.replace(' + JSON.stringify(dest) + ');<\/script>',
+                '    <style>body{font-family:\'Malgun Gothic\',sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;background:#eef2f6;color:#334155}.box{text-align:center;padding:2rem}a{color:#004098;font-weight:bold}</style>',
+                '</head>',
+                '<body>',
+                '    <div class="box">',
+                '        <p>' + safeSchool + ' 출발전 제출서류로 이동 중…</p>',
+                '        <p><a href="' + dest + '">자동 이동되지 않으면 여기를 눌러주세요</a></p>',
+                '    </div>',
+                '</body>',
+                '</html>',
+                ''
+            ].join('\n');
         }
         function downloadShortRedirectFile(shortPath, school, program, pwd) {
             const slug = String(shortPath || '').replace(/\/$/, '') || 'school';

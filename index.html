@@ -405,7 +405,7 @@
             
             const safeSchoolName = resolveFilesFolder(inputSchool.trim());
             // Bust CDN/browser cache when PDFs are replaced on GitHub Pages.
-            const docCacheVer = '20261102b';
+            const docCacheVer = '20261102c';
             document.querySelectorAll('.dynamic-doc-link').forEach(link => {
                 const fileName = link.getAttribute('data-file');
                 link.href = `./files/${safeSchoolName}/${fileName}?v=${docCacheVer}`;
@@ -464,9 +464,9 @@
                     '캠퍼스 급식·식수 위생 관련 서류 일체',
                     '식수 수질검사 등 캠퍼스 식사·위생 증빙');
                 setCat('cat04',
-                    '04. 기타 (항공·현지 전담 직원·보험·어학원)',
-                    '항공권, 현지 전담 직원 및 여행자보험·어학원 인가 서류',
-                    '전자항공권(E-TKT), 현지 전담 직원·어학원 인가(TESDA 등), 해외여행자보험 증권, 일정표 등');
+                    '04. 기타 (항공·보험·어학원·OT)',
+                    '항공권, 선금보증보험 및 어학원·출국 전 OT 서류',
+                    '전자항공권(E-TKT), 선금보증보험 증권, 어학원 인가(TESDA 등), 일정표, 현지 출국 전 OT 자료 등');
                 return;
             }
 

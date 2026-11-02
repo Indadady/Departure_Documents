@@ -405,7 +405,7 @@
             
             const safeSchoolName = resolveFilesFolder(inputSchool.trim());
             // Bust CDN/browser cache when PDFs are replaced on GitHub Pages.
-            const docCacheVer = '20261102a';
+            const docCacheVer = '20261102b';
             document.querySelectorAll('.dynamic-doc-link').forEach(link => {
                 const fileName = link.getAttribute('data-file');
                 link.href = `./files/${safeSchoolName}/${fileName}?v=${docCacheVer}`;
@@ -659,7 +659,8 @@
                 : '../?school=' + qSchool + '&program=' + qProgram;
             const safeSchool = String(school || '').replace(/[<>&"]/g, '');
             const safeProgram = String(program || '').replace(/[<>&"]/g, '');
-            // IMPORTANT: escape <\/script> so the portal <script> block is not closed early by the HTML parser.
+            const safeDestAttr = String(dest).replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+            // Keep the short URL in the address bar via full-viewport iframe (no location.replace).
             return [
                 '<!DOCTYPE html>',
                 '<html lang="ko">',
@@ -669,15 +670,19 @@
                 '    <title>' + safeSchool + ' · 출발전 제출서류 | 투어메이커</title>',
                 '    <meta property="og:title" content="' + safeSchool + ' 출발전 제출서류 | 투어메이커">',
                 '    <meta property="og:description" content="' + safeProgram + ' · 사전 제출 구비서류">',
-                '    <meta http-equiv="refresh" content="0;url=' + dest + '">',
-                '    <script>location.replace(' + JSON.stringify(dest) + ');<\/script>',
-                '    <style>body{font-family:\'Malgun Gothic\',sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;background:#eef2f6;color:#334155}.box{text-align:center;padding:2rem}a{color:#004098;font-weight:bold}</style>',
+                '    <meta property="og:type" content="website">',
+                '    <style>',
+                '        html, body { margin:0; padding:0; height:100%; background:#0f172a; }',
+                '        iframe { border:0; width:100%; height:100%; display:block; background:#eef2f6; }',
+                '        noscript { color:#fff; font-family:\'Malgun Gothic\',sans-serif; display:flex; min-height:100vh; align-items:center; justify-content:center; }',
+                '        noscript a { color:#93c5fd; }',
+                '    </style>',
                 '</head>',
                 '<body>',
-                '    <div class="box">',
-                '        <p>' + safeSchool + ' 출발전 제출서류로 이동 중…</p>',
-                '        <p><a href="' + dest + '">자동 이동되지 않으면 여기를 눌러주세요</a></p>',
-                '    </div>',
+                '    <iframe title="' + safeSchool + ' 출발전 제출서류" src="' + safeDestAttr + '" allow="clipboard-read; clipboard-write"></iframe>',
+                '    <noscript>',
+                '        <p><a href="' + safeDestAttr + '">자바스크립트가 꺼져 있으면 여기를 눌러 서류함으로 이동하세요</a></p>',
+                '    </noscript>',
                 '</body>',
                 '</html>',
                 ''
